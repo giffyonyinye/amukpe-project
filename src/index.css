@@ -1,13 +1,173 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root{
+    --main-color: #50062A;
+    --accent-color: #E4D2D2;
+    --black: #000000;
+    --aliceblue: aliceblue;
+    --white: #ffffff;
+    --poppins: 'Poppins', sans-serif;
+    --josefin: 'Josefin Sans', sans-serif;
+    --raleway: 'Raleway', sans-serif;
+    --chilanka: 'Chilanka' cursive;
+    --zen: 'Zen Tokyo Zoo', cursive;
+    --fredoka: 'Fredoka One', cursive;
+    --otomanpee: 'Otomanopee One', sans-serif;
+    --lobster: 'Lobster', cursive;
+    --jomhuria: 'Jomhuria', cursive;
+    --bree: 'Bree Serif', serif;
+    --acme: 'Acme', sans-serif;
+    --signika: 'Signika', sans-serif;
+    --signika-negative: 'Signika Negative', sans-serif;
+    --jost: 'Jost', sans-serif;
+    --prata: 'Prata', serif;
+    --righteous: 'Righteous', cursive;
+    --itim: 'Itim', cursive;
+    --guy: 'Luckiest Guy', cursive;
+    --poiret: 'Poiret One', cursive;
+    --ramabhadra: 'Ramabhadra', sans-serif;
+    --alegreya: 'Alegreya Sans SC', sans-serif;
+    --arima: 'Arima Madurai', cursive;
+    --chewy: 'Chewy', cursive;
+    --mada: 'Mada', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.header_text{
+    color: var(--main-color);
+    font-family: var(--otomanpee);
+    font-size: 35px;
+    margin-bottom: 0px;
+}
+.subheader_text{
+    font-family: var(--josefin);
+    font-size: 19px;
+    font-weight: 300!important;
+    padding-left: 20px;
+    margin-bottom: 0px;
+}
+
+.header_button a{
+    border: 1px solid var(--main-color);
+    font-family: var(--acme);
+    color: var(--aliceblue);
+    background-color: var(--main-color);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 15px;
+}
+.header_button a:nth-child(1){
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.header_button a:nth-child(1):hover{
+    background-color: transparent;
+    color: var(--main-color);
+}
+.header_button a:nth-child(2){
+    background-color: transparent;
+    color: var(--main-color);
+    margin-right: 0px;
+}
+.header_button a:nth-child(2):hover{
+    color: var(--aliceblue);
+    background-color: var(--main-color);
+}
+
+#row2{
+    border: none;
+    background-color: var(--accent-color);
+}
+#row2 .columns{
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+#row3{
+    border: none;
+}
+#row3 .columns{
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+/* Animations Section Styles */
+@-webkit-keyframes spin-animation {
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    0% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes spin-animation {
+    100% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    0% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes wave-animation {
+    0% { transform: rotate( 0.0deg) }
+   10% { transform: rotate(14.0deg) }
+   20% { transform: rotate(-8.0deg) }
+   30% { transform: rotate(14.0deg) }
+   40% { transform: rotate(-4.0deg) }
+   50% { transform: rotate(10.0deg) }
+   60% { transform: rotate( 0.0deg) }
+  100% { transform: rotate( 0.0deg) }
+}
+
+@keyframes shake-animation{
+    10%, 90%{
+        transform: translate3d(-2px, 0, 0);
+    }
+
+    20%, 80%{
+        transform: translate3d(3px, 0, 0);
+    }
+
+    30%, 50%, 70%{
+        transform: translate3d(-5px, 0, 0);
+    }
+
+    40%, 60%{
+        transform: translate3d(5px, 0, 0);
+    }
+}
+
+/* Alert Styles Section */
+.alert{
+    color: var(--aliceblue);
+    border-radius: 10px;
+    font-family: var(--arima);
+    border: none;
+}
+.alert i{
+    float: right;
+    font-size: 21px;
+    cursor: pointer;
+    padding-top: 2.4px;
+    display: flex;
+}
+.alert.danger_alert{
+    filter: brightness(90%);
+    background: var(--main-color);
+}
+.alert.success_alert{
+    background-color: green;
+    filter: brightness(90%);
+}
+
+.divider{
+    padding: 1px;
+    background-color: var(--main-color);
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
