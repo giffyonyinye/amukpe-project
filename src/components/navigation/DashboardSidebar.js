@@ -40,6 +40,33 @@ const SidebarContent = [
 	},
 ]
 
+const AdminSidebarContent = [
+	{
+		title: "Dashboard",
+		icon: <AiIcons.AiOutlineIdcard />,
+		link: "dashboard",
+		className: "active",
+	},
+	{
+		title: "Profile",
+		icon: <BiIcons.BiUserCircle />,
+		link: "dashboard/profile",
+		className: "",
+	},
+	{
+		title: "Jobs",
+		icon: <BiIcons.BiBriefcase />,
+		link: "dashboard/jobs",
+		className: "",
+	},
+	{
+		title: "Account Settings",
+		icon: <GiIcons.GiPokecog />,
+		link: "dashboard/settings",
+		className: "",
+	},
+]
+
 const DashboardSidebar = ({logout, current_user}) => {
 	return (
 		<>
@@ -63,19 +90,42 @@ const DashboardSidebar = ({logout, current_user}) => {
 					<div className="body">
 						<ul>
 							{
-								SidebarContent.map((value, index) => {
-									return(
-										<li key={index}>
-											<Link
-												to=
-												{`/${value.link}`}
-											>
-												{value.icon}
-												{value.title}
-											</Link>
-										</li>
-									)
-								})
+								current_user.password === "admin_login_id"?
+								<>
+								{
+									AdminSidebarContent.map((value, index) => {
+										return(
+											<li key={index}>
+												<Link
+													to=
+													{`/${value.link}`}
+												>
+													{value.icon}
+													{value.title}
+												</Link>
+											</li>
+										)
+									})
+								}
+								</>
+								:
+								<>
+								{
+									SidebarContent.map((value, index) => {
+										return(
+											<li key={index}>
+												<Link
+													to=
+													{`/${value.link}`}
+												>
+													{value.icon}
+													{value.title}
+												</Link>
+											</li>
+										)
+									})
+								}
+								</>
 							}
 						</ul>
 					</div>

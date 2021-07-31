@@ -25,14 +25,14 @@ const Login = ({devApi, setUser, setToken}) => {
 			},
 			url: `${devApi}auth/login/`,
 		}).then((res) => {
-			console.log(res.data);
 			setEmail("");
 			setPassword("");
 			setProccess(false);
-			if (res.data.message === "password_error"){
+			const message = res.data.message;
+			if (message === "password_error" || message === false){
 				setAcctError(true);
 			}
-			if (res.data.message === true){
+			if (message === true){
 				setUser(res.data.user);
 				setToken(res.data.token);
 			}

@@ -1,13 +1,41 @@
 import {useState} from "react";
+import axios from "axios";
 import * as ImIcons from "react-icons/im";
 
-const ResumeCard = ({current_user}) => {
+const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 
 	const [saving, setSaving] = useState(false);
+
+	const [cv, setCv] = useState({});
+	const [passport, setPassport] = useState({});
+	const [profile_picture, setProfilePicture] = useState({});
+	const [qualification, setQualification] = useState(current_user.qualification);
 
 	const saveResume = (e) => {
 		e.preventDefault();
 		setSaving(true);
+		var form_data = new FormData();
+
+		console.log('sending...')
+
+		form_data.append("qualification", qualification);
+		form_data.append("resume", cv);
+		form_data.append("passport", passport);
+		form_data.append("profile", profile_picture)
+
+		axios({
+			method: "PUT",
+			data: form_data,
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}user/${current_user._id}/update/resume/`,
+		}).then((res) => {
+			setSaving(false);
+			console.log(res.data);
+			reloadUser();
+		});
+
 	}
 
 	return(
@@ -46,6 +74,7 @@ const ResumeCard = ({current_user}) => {
 										accept=".doc, .docx, application/pdf, application/msword, 
 											application/vnd.openxmlformats-officedocument.
 											wordprocessingml.document"
+										onChange={(e) => setCv(e.target.files[0])}
 									/>
 								</div>
 							</div>
@@ -61,12 +90,30 @@ const ResumeCard = ({current_user}) => {
 										id="passport_imgupload"
 										className="resume_fileupload"
 										accept=".png, .jpg, .webp, .jfif"
+										onChange={(e) => setPassport(e.target.files[0])}
 									/>
 								</div>
 							</div>
 						</div>
 
 						<div className="row">
+							<div className="col-xl-6">
+								<div className="form-group">
+									<label
+										htmlFor="profile_imgupload"
+										className="resume__filelabel"
+									>Upload Profile Picture</label>
+									<br />
+									<input
+										type="file"
+										id="profile_imgupload"
+										className="resume_fileupload"
+										accept=".png, .jpg, .webp, .jfif"
+										onChange={(e) => setProfilePicture(e.target.files[0])}
+									/>
+								</div>
+							</div>
+
 							<div className="col-xl-6">
 								<div className="form-group">
 									<label
@@ -77,6 +124,8 @@ const ResumeCard = ({current_user}) => {
 									<select
 										id="resume_educationlevel"
 										className="form-control auth__input"
+										value={qualification}
+										onChange={(e) => setQualification(e.target.value)}
 									>
 										<option selected disabled>
 											Choose Qualification

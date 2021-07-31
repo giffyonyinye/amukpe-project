@@ -7,6 +7,9 @@ import ResumeCard from "../components/card/ResumeCard";
 import JobAlertsCard from "../components/card/JobAlertsCard";
 import DashboardJobCard from "../components/card/DashboardJobCard";
 import DashboardSidebar from "../components/navigation/DashboardSidebar";
+import SingleJobCard from "../components/card/SingleJobCard";
+
+import Admin from "./admin/Admin";
 
 const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) => {
 	return (
@@ -18,8 +21,8 @@ const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) =>
 				/>
 
 				<Switch>
-					<Route exact path={`/dashboard`}>
-						<DashboardCard
+					<Route path={`/dashboard/jobs/:id`}>
+						<SingleJobCard
 							current_user={current_user}
 							token={token}
 							devApi={devApi}
@@ -27,42 +30,67 @@ const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) =>
 							reloadUser={reloadUser}
 						/>
 					</Route>
-					<Route path={`/dashboard/profile`}>
-						<ProfileCard
+					{
+						current_user.password !== "admin_login_id"?
+						<>
+							<Route exact path={`/dashboard`}>
+								<DashboardCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+								/>
+							</Route>
+							<Route path={`/dashboard/profile`}>
+								<ProfileCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+								/>
+							</Route>
+							<Route path={`/dashboard/settings`}>
+								<SettingsCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+								/>
+							</Route>
+							<Route path={`/dashboard/resume`}>
+								<ResumeCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+								/>
+							</Route>
+							<Route path={`/dashboard/jobs`}>
+								<DashboardJobCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+								/>
+							</Route>
+						</>
+						:
+						<>
+						<Admin
 							current_user={current_user}
 							token={token}
 							devApi={devApi}
 							devURL={devURL}
 							reloadUser={reloadUser}
 						/>
-					</Route>
-					<Route path={`/dashboard/settings`}>
-						<SettingsCard
-							current_user={current_user}
-							token={token}
-							devApi={devApi}
-							devURL={devURL}
-							reloadUser={reloadUser}
-						/>
-					</Route>
-					<Route path={`/dashboard/resume`}>
-						<ResumeCard
-							current_user={current_user}
-							token={token}
-							devApi={devApi}
-							devURL={devURL}
-							reloadUser={reloadUser}
-						/>
-					</Route>
-					<Route path={`/dashboard/jobs`}>
-						<DashboardJobCard
-							current_user={current_user}
-							token={token}
-							devApi={devApi}
-							devURL={devURL}
-							reloadUser={reloadUser}
-						/>
-					</Route>
+						</>
+					}
+
 				</Switch>
 				<JobAlertsCard />
 			</div>

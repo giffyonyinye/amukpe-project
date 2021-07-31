@@ -7,7 +7,7 @@ const Home = () => {
 	return (
 		<div className="container-fluid custom__container pt-5">
 			<div className="row justify-content-center">
-				<div className="col-xl-6">
+				<div className="col-xl-6 col-lg-6 col-md-6 col-11 mb-4">
 					<h2 className="header_text">Amukpe Community</h2>
 					<br />
 					<p className="subheader_text">
@@ -27,7 +27,7 @@ const Home = () => {
 						</Link>
 					</div>
 				</div>
-				<div className="col-xl-4">
+				<div className="col-xl-4 col-lg-4 col-md-5">
 					<img
 						src={community}
 						alt="JOBSVG"
@@ -38,14 +38,14 @@ const Home = () => {
 			<br />
 			<br />
 			<div className="row justify-content-center" id="row2">
-				<div className="col-xl-6 columns">
+				<div className="col-xl-6 col-lg-5 col-md-6 columns">
 					<img
 						src={achievements}
 						alt="JOBSVG"
 						className="img-fluid"
 					/>
 				</div>
-				<div className="col-xl-5 columns">
+				<div className="col-xl-5 col-lg-6 col-md-6 columns">
 					<h2 className="header_text">Achiements & Development</h2>
 					<br />
 					<p className="subheader_text">
@@ -79,14 +79,15 @@ const Home = () => {
 			<br />
 			<br />
 			<div className="row justify-content-center" id="row3">
-				<div className="col-xl-5 columns">
+				<div className="col-xl-5 col-lg-6 col-md-6 columns">
 					<h2 className="header_text">What We Are</h2>
 					<br />
 					<p className="subheader_text">
 						Amukpe Community is a communitty in Sapele Delta State. With love and 
 						unity dvfyd yfewu udhfh gdtf ht id tihin sth reasdon why you didnet shwi 
 						iup T my place the otehr cay dont get uoddatedn eith the sstory of this 
-						comunity we lovwe to keep it real and smooth all the dy of iut lives and 
+						comunity we lovwe to keep it real and smooth all the dy of i
+						ut lives and 
 						lives with it as kive hasa offered us with so much opportunities, dot sir 
 						nad thunj that theh sroyt witg tr xgan an minert frim nie si that teh oeiolw 
 						iof the kabn will yhfeuy yqyr ncgyewc the goodsa nd service if tey sdgfy 
@@ -103,7 +104,7 @@ const Home = () => {
 						</Link>
 					</div>
 				</div>
-				<div className="col-xl-6 columns">
+				<div className="col-xl-6 col-lg-5 col-md-6 columns">
 					<img
 						src={achievements}
 						alt="JOBSVG"
@@ -113,14 +114,14 @@ const Home = () => {
 			</div>
 			<br />
 			<div className="row justify-content-center" id="row2">
-				<div className="col-xl-6 columns">
+				<div className="col-xl-6 col-lg-5 col-md-6 columns">
 					<img
 						src={job}
 						alt="JOBSVG"
 						className="img-fluid"
 					/>
 				</div>
-				<div className="col-xl-5 columns">
+				<div className="col-xl-5 col-lg-6 col-md-6 columns">
 					<h2 className="header_text">Looking for a Job?</h2>
 					<br />
 					<p className="subheader_text">

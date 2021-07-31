@@ -16,9 +16,6 @@ const Navbar = ({activeComponent}) => {
 						<Link to="/">Home</Link>
 					</li>
 					<li className="nav-item">
-						<Link to="/dashboard">Dashboard</Link>
-					</li>
-					<li className="nav-item">
 						<Link to="/contact">Contact</Link>
 					</li>
 					<li className="nav-item">
