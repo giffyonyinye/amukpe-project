@@ -71,6 +71,7 @@ const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 										type="file"
 										id="cv_fileupload"
 										className="resume_fileupload"
+										required={true}
 										accept=".doc, .docx, application/pdf, application/msword, 
 											application/vnd.openxmlformats-officedocument.
 											wordprocessingml.document"
@@ -89,6 +90,7 @@ const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 										type="file"
 										id="passport_imgupload"
 										className="resume_fileupload"
+										required={true}
 										accept=".png, .jpg, .webp, .jfif"
 										onChange={(e) => setPassport(e.target.files[0])}
 									/>
@@ -108,6 +110,7 @@ const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 										type="file"
 										id="profile_imgupload"
 										className="resume_fileupload"
+										required={true}
 										accept=".png, .jpg, .webp, .jfif"
 										onChange={(e) => setProfilePicture(e.target.files[0])}
 									/>
@@ -124,6 +127,7 @@ const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 									<select
 										id="resume_educationlevel"
 										className="form-control auth__input"
+										required={true}
 										value={qualification}
 										onChange={(e) => setQualification(e.target.value)}
 									>

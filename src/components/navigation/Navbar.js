@@ -2,7 +2,7 @@ import '../../assets/css/navbar.css';
 import {Link} from "react-router-dom";
 import * as VsIcons from "react-icons/vsc";
 
-const Navbar = ({activeComponent}) => {
+const Navbar = ({activeComponent, token}) => {
 
 	return (
 	<header className="custom__header">
@@ -25,18 +25,25 @@ const Navbar = ({activeComponent}) => {
 			</nav>
 			<nav className="nav_content second">
 				<ul className="navbar-nav">
-					<li className="nav-item" id="sidebar_li">
-						<Link to="/register">
-							<VsIcons.VscSignIn />
-							Sign Up
-						</Link>
-					</li>
-					<li className="nav-item" id="sidebar_li">
-						<Link to="/login">
-							<VsIcons.VscSignIn />
-							Sign In
-						</Link>
-					</li>
+				{
+					token?
+					''
+					:
+					<>
+						<li className="nav-item" id="sidebar_li">
+							<Link to="/register">
+								<VsIcons.VscSignIn />
+								Sign Up
+							</Link>
+						</li>
+						<li className="nav-item" id="sidebar_li">
+							<Link to="/login">
+								<VsIcons.VscSignIn />
+								Sign In
+							</Link>
+						</li>
+					</>
+				}
 				</ul>
 			</nav>
 		</nav>

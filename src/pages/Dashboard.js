@@ -92,7 +92,13 @@ const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) =>
 					}
 
 				</Switch>
-				<JobAlertsCard />
+				<JobAlertsCard
+					current_user={current_user}
+					token={token}
+					devApi={devApi}
+					devURL={devURL}
+					reloadUser={reloadUser}
+				/>
 			</div>
 			<br />
 			<br />

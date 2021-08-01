@@ -3,6 +3,7 @@ import axios from "axios";
 import Modal from 'react-modal';
 import * as ImIcons from "react-icons/im";
 import * as TiIcons from "react-icons/ti";
+import Moment from 'react-moment';
 
 const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 
@@ -10,6 +11,7 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 	const [editJobModal, setEditJobModal] = useState(false);
 
 	const toggleModal = () => {
+		console.log("Togggling....")
 		setEditJobModal(!editJobModal);
 	}
 
@@ -28,18 +30,30 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 
 	return (
 		<>
-			<EditModal
-				current_user={current_user}
-				token={token}
-				devApi={devApi}
-				devURL={devURL}
-				reloadUser={reloadUser}
-				job={job}
-				toggleModal={toggleModal}
-			/>
+			{
+				editJobModal?
+				<EditModal
+					current_user={current_user}
+					token={token}
+					devApi={devApi}
+					devURL={devURL}
+					reloadUser={reloadUser}
+					job={job}
+					setJob={setJob}
+					toggleModal={toggleModal}
+				/>:''
+			}
 			{
 				current_user.password !== "admin_login_id"?
-				<p>Job Card</p>
+				<UserJobsCard
+					current_user={current_user}
+					token={token}
+					devApi={devApi}
+					devURL={devURL}
+					reloadUser={reloadUser}
+					job={job}
+					toggleModal={toggleModal}
+				/>
 				:
 				<AdminJobsCard
 					current_user={current_user}
@@ -55,6 +69,89 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 	)
 }
 
+const UserJobsCard = ({toggleModal, current_user, token, devApi,
+	devURL, reloadUser, job}) => {
+
+	const [applying, setApplying] = useState(false);
+	const [applied, setApplied] = useState(null);
+
+	useEffect(() => {
+		if (job !== null){
+			const check = job.applications.find(item => item['email'] === current_user.email);
+
+			if (check === undefined){
+				setApplied(false);
+			}else{
+				setApplied(true);
+			}
+		}
+	}, [current_user, job])
+
+	const applyForJob = () => {
+		const id = window.location.pathname.split('/')[3];
+		setApplying(true);
+		axios({
+			method: "PUT",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/apply/${id}/${current_user.email}/`,
+		}).then((res) => {
+			console.log(res.data);
+			setApplying(false);
+		});
+
+	}
+
+	return (
+		<div className="col-xl-5 pl-2 pr-1">
+			{
+				job !== null?
+				<div className="card dashboard_card singlejob__card">
+					<div className="header">
+						<img
+							src={`${devURL}img/icon/${job.icon}`}
+							alt="jobIcon"
+						/>
+						<p>{job.title} - Details</p>
+					</div>
+					<div className="body">
+						<span>Job Title: {job.title}</span>
+						<span>Job Location: {job.location}</span>
+						<span>Job Salary: {job.salary}</span>
+						<span>Added On <strong><Moment format="DD MMM YYYY">
+							{job.date_added}
+						</Moment></strong></span>
+
+						<i id="description_header">Job Description: </i>
+						<span>{job.description}</span>
+						<br />
+
+						{
+							applied?
+							<button
+								id="add_job_button"
+								disabled={true}
+							>Already Applied For This Job</button>
+							:
+							<button
+								id="add_job_button"
+								onClick={applyForJob}
+							>
+								{
+									applying?
+									<ImIcons.ImSpinner8 />
+									:'Apply For This Job'
+								}
+							</button>
+						}
+					</div>
+				</div>:''
+			}
+		</div>
+	)
+}
+
 const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 	devURL, reloadUser, job}) => {
 	return (
@@ -63,13 +160,19 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 				job !== null?
 				<div className="card dashboard_card singlejob__card">
 					<div className="header">
+						<img
+							src={`${devURL}img/icon/${job.icon}`}
+							alt="jobIcon"
+						/>
 						<p>{job.title} - Details</p>
 					</div>
 					<div className="body">
 						<span>Job Title: {job.title}</span>
 						<span>Job Location: {job.location}</span>
 						<span>Job Salary: {job.salary}</span>
-						<span>Added On {job.date_added}</span>
+						<span>Added On <strong><Moment format="DD MMM YYYY">
+							{job.date_added}
+						</Moment></strong></span>
 
 						<i id="description_header">Job Description: </i>
 						<span>{job.description}</span>
@@ -88,20 +191,53 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 	)
 }
 
-const EditModal = ({toggleModal}) => {
+const EditModal = ({toggleModal, job, token, devApi, setJob}) => {
 
-	//const [uploadingJob, setUploadingJob] = useState(false);
-	const [jobTitle, setJobTitle] = useState("");
-	const [jobLocation, setJobLocation] = useState("");
-	const [jobSalary, setJobSalary] = useState("");
-	const [jobDescription, setJobDescription] = useState("");
+	const [uploadingJob, setUploadingJob] = useState(false);
+	const [jobTitle, setJobTitle] = useState(job.title);
+	const [jobLocation, setJobLocation] = useState(job.location);
+	const [jobSalary, setJobSalary] = useState(job.salary);
+	const [jobDescription, setJobDescription] = useState(job.description);
 	const [jobIcon, setJobIcon] = useState({});
+
+	const submitEditedJob = (e) => {
+		e.preventDefault();
+		const id = window.location.pathname.split('/')[3];
+		setUploadingJob(true);
+
+		const form_data = new FormData();
+		form_data.append("job_title", jobTitle);
+		form_data.append("job_location", jobLocation);
+		form_data.append("job_salary", jobSalary);
+		form_data.append("job_description", jobDescription);
+		form_data.append("job_icon", jobIcon);
+
+		axios({
+			method: "POST",
+			data: form_data,
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/single/${id}/edit/`,
+		}).then((res) => {
+			console.log(res.data);
+			setUploadingJob(false);
+			if (res.data.message === true){
+				console.log("Done");
+				setJob(res.data.job);
+				toggleModal();
+			}
+		});
+
+	}
 
 	const changeJobIcon = (e) => {
 		setJobIcon(e.target.files[0]);
 		document.getElementById("job_iconlabel").innerText =
 			`${e.target.files[0].name.slice(0,20)}...`;
 	}
+
+	Modal.setAppElement('#root');
 
 	return (
 		<Modal
@@ -112,14 +248,14 @@ const EditModal = ({toggleModal}) => {
 		>
 			<div className="header">
 				<p>
-					Add A New Job
+					Edit This Job
 					<TiIcons.TiTimes
 						onClick={toggleModal}
 					/>
 				</p>
 			</div>
 			<div className="body">
-				<form>
+				<form onSubmit={submitEditedJob}>
 					<div className="row">
 						<div className="col-sm-6">
 							<div className="form-group">
@@ -195,7 +331,7 @@ const EditModal = ({toggleModal}) => {
 						{
 							uploadingJob?
 							<ImIcons.ImSpinner8 />
-							:'Upload'
+							:'Finish'
 						}
 					</button>
 					<br />

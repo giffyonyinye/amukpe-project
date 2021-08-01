@@ -10,7 +10,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 
 	const [firstname, setFirstname] = useState(current_user.firstname);
 	const [lastname, setLastname] = useState(current_user.lastname);
-	const [dob, setDob] = useState(current_user.dob);
+	const [dob, setDob] = useState(new Date(current_user.dob).toLocaleDateString('en-CA'));
 	const [gender, setGender] = useState(current_user.gender);
 	const [number, setNumber] = useState(current_user.number);
 	const [email, setEmail] = useState(current_user.email);
@@ -107,6 +107,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 											type="text"
 											className="form-control auth__input"
 											placeholder="Firstname"
+											required={true}
 											value={firstname}
 											onChange={(e) => setFirstname(e.target.value)}
 										/>
@@ -118,6 +119,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 											type="text"
 											className="form-control auth__input"
 											placeholder="Lastname"
+											required={true}
 											value={lastname}
 											onChange={(e) => setLastname(e.target.value)}
 										/>
@@ -130,6 +132,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 										<input
 											type="date"
 											className="form-control auth__input"
+											required={true}
 											value={dob}
 											onChange={(e) => setDob(e.target.value)}
 										/>
@@ -139,6 +142,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 									<div className="form-group">
 										<select
 											className="form-control auth__input"
+											required={true}
 											value={gender}
 											onChange={(e) => setGender(e.target.value)}
 										>
@@ -160,6 +164,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 											type="number"
 											className="form-control auth__input"
 											placeholder="Phone Number"
+											required={true}
 											value={number}
 											onChange={(e) => setNumber(e.target.value)}
 										/>
@@ -170,6 +175,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 										<input
 											type="text"
 											placeholder="Email Address"
+											required={true}
 											className="form-control auth__input"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
@@ -189,6 +195,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 											type="text"
 											className="form-control auth__input"
 											placeholder="State"
+											required={true}
 											value={state}
 											onChange={(e) => setState(e.target.value)}
 										/>
@@ -200,6 +207,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 											type="text"
 											className="form-control auth__input"
 											placeholder="City"
+											required={true}
 											value={city}
 											onChange={(e) => setCity(e.target.value)}
 										/>
@@ -211,6 +219,7 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 									type="address"
 									className="form-control auth__input"
 									placeholder="Residential Address"
+									required={true}
 									value={address}
 									onChange={(e) => setAddress(e.target.value)}
 								/>

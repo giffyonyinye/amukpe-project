@@ -1,29 +1,25 @@
 import {Link} from "react-router-dom";
+import {useState, useEffect} from "react";
+import axios from "axios";
+import Moment from "react-moment";
 
-const JobListing = [
-	{
-		title: "Youth Empowerment Program",
-		date_added: "29th July 2021",
-		link: "youth-empowerment-program",
-	},
-	{
-		title: "Youth Empowerment Program",
-		date_added: "29th July 2021",
-		link: "youth-empowerment-program",
-	},
-	{
-		title: "Youth Empowerment Program",
-		date_added: "29th July 2021",
-		link: "youth-empowerment-program",
-	},
-	{
-		title: "Youth Empowerment Program",
-		date_added: "29th July 2021",
-		link: "youth-empowerment-program",
-	},
-]
+const JobAlertsCard = ({devApi, token}) => {
 
-const JobAlertsCard = () => {
+	const [jobListing, setJobListing] = useState([]);
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/all/`,
+		}).then((res) => {
+			console.log(res.data);
+			setJobListing(res.data.jobs);
+		});
+	}, [token, devApi]);
+
 	return(
 		<div className="col-xl-3 pl-2 pr-0">
 			<div className="card jobalert_card">
@@ -32,14 +28,15 @@ const JobAlertsCard = () => {
 				</div>
 				<div className="body">
 					{
-						JobListing.map((value, index) => {
+						jobListing.length !== 0?
+						jobListing.slice(0,4).map((value, index) => {
 							return (
 								<JobSingles
 									key={index}
 									job={value}
 								/>
 							)
-						})
+						}):''
 					}
 					<br />
 					<Link to="/dashboard/jobs" id="view_more">
@@ -53,10 +50,10 @@ const JobAlertsCard = () => {
 
 const JobSingles = ({job}) => {
 	return(
-		<Link to={`/job/${job.link}`}>
+		<Link to={`/dashboard/jobs/${job.job_id}`}>
 			{job.title}
 			<i>
-				{job.date_added}
+				<Moment fromNow>{job.date_added}</Moment>
 			</i>
 		</Link>
 	)

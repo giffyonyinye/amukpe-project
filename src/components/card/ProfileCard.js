@@ -69,12 +69,15 @@ const ProfileCard = ({current_user, devURL}) => {
 								}}
 							></div>
 
-							<img
-								src={`${devURL}img/passport/${current_user.passport}`}
-								alt="passportImg"
+							{
+								current_user.passport !== undefined?
+								<img
+									src={`${devURL}img/passport/${current_user.passport}`}
+									alt="passportImg"
 
-								className="passport_img"
-							/>
+									className="passport_img"
+								/>:''
+							}
 
 							<span className="active">
 								{

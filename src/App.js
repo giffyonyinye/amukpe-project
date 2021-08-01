@@ -10,10 +10,10 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import axios from "axios";
 
-const prodApi = "http://localhost:9500/api/";
-const prodURL = "http://localhost:9500/";
-// const prodApi = "https://amukpe.herokuapp.com/api/";
-// const prodURL = "https://amukpe.herokuapp.com/";
+// const prodApi = "http://localhost:9500/api/";
+// const prodURL = "http://localhost:9500/";
+const prodApi = "https://amukpe.herokuapp.com/api/";
+const prodURL = "https://amukpe.herokuapp.com/";
 
 export default function App(){
 
@@ -60,6 +60,7 @@ export default function App(){
                 <Navbar
                     logout={logout}
                     activeComponent={currentComponent}
+                    token={token}
                 />
                 <Switch>
                     <Route exact path="/">

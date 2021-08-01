@@ -5,7 +5,7 @@ import * as MdIcons from "react-icons/md";
 import * as AiIcons from "react-icons/ai";
 import {Link} from "react-router-dom";
 
-const DashboardCard = () => {
+const DashboardCard = ({current_user}) => {
 	return(
 		<div className="col-xl-5 pl-2 pr-1">
 			<div className="card dashboard_card">
@@ -16,7 +16,7 @@ const DashboardCard = () => {
 					<div className="row">
 						<div className="col-xl-6 progress_cardcol">
 							<div className="card progress_cards">
-								<span>Jobs Applied To: 5</span>
+								<span>Jobs Applied To: {current_user.applied_to}</span>
 								<BiIcons.BiBriefcase
 									className="first"
 								/>
