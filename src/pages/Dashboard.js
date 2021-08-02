@@ -8,6 +8,7 @@ import JobAlertsCard from "../components/card/JobAlertsCard";
 import DashboardJobCard from "../components/card/DashboardJobCard";
 import DashboardSidebar from "../components/navigation/DashboardSidebar";
 import SingleJobCard from "../components/card/SingleJobCard";
+import SingleUserCard from "../components/card/SingleUserCard";
 
 import Admin from "./admin/Admin";
 
@@ -23,6 +24,15 @@ const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) =>
 				<Switch>
 					<Route path={`/dashboard/jobs/:id`}>
 						<SingleJobCard
+							current_user={current_user}
+							token={token}
+							devApi={devApi}
+							devURL={devURL}
+							reloadUser={reloadUser}
+						/>
+					</Route>
+					<Route path={`/dashboard/users/:email`}>
+						<SingleUserCard
 							current_user={current_user}
 							token={token}
 							devApi={devApi}

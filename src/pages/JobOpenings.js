@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import Moment from "react-moment";
 
-const DashboardJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
+const JobOpenings = ({devApi, devURL}) => {
 
 	const [jobs, setJobs] = useState([]);
 
@@ -12,23 +12,15 @@ const DashboardJobCard = ({current_user, token, devApi, devURL, reloadUser}) => 
 			method: "GET",
 			url: `${devApi}jobs/get/all/`,
 		}).then((res) => {
-			console.log(res.data);
 			setJobs(res.data.jobs);
 		});
-	}, [token, devApi]);
+	}, [devApi]);
 
-	return(
-		<div className="col-xl-5 pl-2 pr-1">
-			<div className="card dashboard_card">
-				<div className="header">
-					{
-						current_user.email === "admin@gmail.com"?
-						<p>Admin Added Jobs</p>
-						:
-						<p>Jobs: For You</p>
-					}
-				</div>
-				<div className="body">
+	return (
+		<div className="container-fluid custom__container pt-5">
+			<div className="row justify-content-start">
+				<div className="col-xl-5 col-lg-6 
+					col-md-7 col-sm-8 col-12">
 					{
 						jobs.length !== 0?
 						jobs.map((value, index) => {
@@ -43,6 +35,9 @@ const DashboardJobCard = ({current_user, token, devApi, devURL, reloadUser}) => 
 					}
 				</div>
 			</div>
+			<br />
+			<br />
+			<br />
 		</div>
 	)
 }
@@ -60,6 +55,11 @@ const JobSingleCard = ({job, devURL}) => {
 				<span><i>Posted On:</i> <Moment format="DD MMM YYYY">
 				{job.date_added}</Moment></span>
 			</div>
+			<br />
+			<span><i>Job Description: </i>
+				<br />
+				{job.description}
+			</span>
 			<div className="d-flex justify-content-end">
 				<Link to={`/dashboard/jobs/${job.job_id}`}>
 					Visit
@@ -69,4 +69,4 @@ const JobSingleCard = ({job, devURL}) => {
 	)
 }
 
-export default DashboardJobCard;
+export default JobOpenings;

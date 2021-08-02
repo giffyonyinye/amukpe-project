@@ -8,6 +8,7 @@ import Register from "./auth/Register";
 import Navbar from "./components/navigation/Navbar";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import JobOpenings from "./pages/JobOpenings";
 import axios from "axios";
 
 // const prodApi = "http://localhost:9500/api/";
@@ -28,6 +29,7 @@ export default function App(){
 
     useEffect(() => {
         if (token){
+            console.log("Got Here")
             axios({
                 method: 'GET',
                 url: `${prodApi}current_user/`,
@@ -35,7 +37,12 @@ export default function App(){
                     'Authorization': token
                 }
             }).then((res) => {
-                setCurrentUser(res.data.user);
+                console.log(res);
+                if (res.data.message === false){
+                    window.localStorage.clear();
+                }else{
+                    setCurrentUser(res.data.user);
+                }
             });
         }
     }, [token]);
@@ -66,6 +73,15 @@ export default function App(){
                     <Route exact path="/">
                         <Home
                             devURL={prodURL}
+                        />
+                    </Route>
+                    <Route exact path="/contact">
+                        <h1>contact us</h1>
+                    </Route>
+                    <Route exact path="/jobopenings">
+                        <JobOpenings
+                            devURL={prodURL}
+                            devApi={prodApi}
                         />
                     </Route>
                     <Route path="/dashboard">

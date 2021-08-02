@@ -42,6 +42,12 @@ const ProfileCard = ({current_user, devURL}) => {
 								</span>
 								<span>
 									{
+										current_user.number !== undefined?
+										`Contact: ${current_user.number}`:''
+									}
+								</span>
+								<span>
+									{
 										current_user.qualification !== undefined?
 										`Qualification: ${current_user.qualification}`:''
 									}
@@ -104,6 +110,13 @@ const ProfileCard = ({current_user, devURL}) => {
 									<>City: {current_user.city}</>:''
 								}
 							</span>
+							<br />
+							<Link
+								to="/dashboard/settings"
+								id="add_job_button"
+							>
+								Edit Your Profile
+							</Link>
 						</div>
 					</div>
 				</div>:''

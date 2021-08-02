@@ -12,7 +12,7 @@
 	background-color: var(--main-color)!important;
 }
 .custom__header .custom__navbar .navbar__brand{
-	font-family: var(--zen);
+	font-family: var(--alegreya);
 	font-weight: 800!important;
 	font-size: 23px;
 	transition: 0.4s all ease-in-out;
@@ -102,4 +102,19 @@
 .custom__header .custom__navbar .nav_content.first .navbar-nav .nav-item a:hover{
 	filter: brightness(80%);
 	background-color: var(--main-color);
+}
+
+#sidebar_li{
+	border: 2px solid var(--white);
+	color: var(--white);
+	transition: 0.3s all ease-in-out;
+	font-family: var(--arima);
+}
+#sidebar_li:hover{
+	background-color: var(--white);
+	color: var(--main-color);
+}
+
+#sidebar_li svg{
+	margin-left: 5px;
 }

@@ -7,12 +7,12 @@ const Home = () => {
 	return (
 		<div className="container-fluid custom__container pt-5">
 			<div className="row justify-content-center">
-				<div className="col-xl-6 col-lg-6 col-md-6 col-11 mb-4">
+				<div className="col-xl-6 col-lg-6 col-md-6 col-12 mb-4">
 					<h2 className="header_text">Amukpe Community</h2>
 					<br />
 					<p className="subheader_text">
 						Creating Awareness and Opportunities in Amukpe Community.
-						Oneness is strength, love and progress. - Modified Version
+						Oneness is strength, love and progress. - Modified Version 44
 					</p>
 
 					<br />
@@ -22,7 +22,7 @@ const Home = () => {
 						<Link to="/portal">	
 							Portal
 						</Link>
-						<Link to="/blog">	
+						<Link to="/dashboard">	
 							Latest Updates
 						</Link>
 					</div>
@@ -53,15 +53,20 @@ const Home = () => {
 						events.
 						Creating job opportunities to indigenes and non-indegenes in the 
 						community.
-						lteh i have the love of the people to enable one understand the staet of
+						lteh i have the love of the people to enable one understand the
+						 staet of
 						the indigenes and non indegenes import communitySvg 
-						from "../Images/Community.svg"; of the community. building oursleves
+						from "../Images/Community.svg"; of the community. building
+						 oursleves
 						 and 
-						understand that the community needs progress and advancment of the
+						understand that the community needs progress and advancment
+						 of the
 						 current 
-						development jygfj hgyuthje yufasydghiuew tyfyssgfuiewyj udgfytfeuf 
+						development jygfj hgyuthje yufasydghiuew tyfyssgfuiewyj
+						 udgfytfeuf 
 						ueueyuiru 
-						bytsyjhff yfhteruybs uwdtywjhydu gwyteyw jhghgdhgghhfdgsfdjjcv yyrrye
+						bytsyjhff yfhteruybs uwdtywjhydu gwyteyw jhghgdhgghhfdgsfdjjcv
+						 yyrrye
 						yfdyf y 
 						dgywqtfiv y ftyewty ud cshgc ctyduwtryu
 					</p>

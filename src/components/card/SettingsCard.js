@@ -146,7 +146,9 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 											value={gender}
 											onChange={(e) => setGender(e.target.value)}
 										>
-											<option selected disabled>Select Your Gender</option>
+											<option selected disabled>
+												Select Your Gender
+											</option>
 											<option value="male">Male</option>
 											<option value="female">Female</option>
 										</select>
@@ -182,7 +184,8 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 										/>
 										{
 											emailError?
-											<p id="input_warning">This email is already taken</p>
+											<p id="input_warning">This email is already 
+												taken</p>
 											:''
 										}
 									</div>

@@ -48,21 +48,15 @@ const AdminSidebarContent = [
 		className: "active",
 	},
 	{
-		title: "Profile",
+		title: "Users",
 		icon: <BiIcons.BiUserCircle />,
-		link: "dashboard/profile",
+		link: "dashboard/users",
 		className: "",
 	},
 	{
 		title: "Jobs",
 		icon: <BiIcons.BiBriefcase />,
 		link: "dashboard/jobs",
-		className: "",
-	},
-	{
-		title: "Account Settings",
-		icon: <GiIcons.GiPokecog />,
-		link: "dashboard/settings",
 		className: "",
 	},
 ]
@@ -99,6 +93,7 @@ const DashboardSidebar = ({logout, current_user}) => {
 												<Link
 													to=
 													{`/${value.link}`}
+													className={`${value.className}`}
 												>
 													{value.icon}
 													{value.title}
@@ -117,6 +112,7 @@ const DashboardSidebar = ({logout, current_user}) => {
 												<Link
 													to=
 													{`/${value.link}`}
+													className={`${value.className}`}
 												>
 													{value.icon}
 													{value.title}

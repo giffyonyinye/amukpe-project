@@ -1,5 +1,7 @@
 import {Switch, Route} from "react-router-dom";
 import AdminDashboard from "./components/card/AdminDashboard";
+import DashboardJobCard from "../../components/card/DashboardJobCard";
+import UsersDashboard from "./components/card/UsersDashboard";
 
 const Admin = ({current_user, token, devApi, devURL, reloadUser}) => {
 	return (
@@ -18,10 +20,25 @@ const Admin = ({current_user, token, devApi, devURL, reloadUser}) => {
 					<p>Welcome Admin Profile</p>
 				</Route>
 				<Route exact path={`/dashboard/jobs`}>
-					<p>Welcome Admin Jobs</p>
+					<DashboardJobCard
+						current_user={current_user}
+						token={token}
+						devApi={devApi}
+						devURL={devURL}
+						reloadUser={reloadUser}
+					/>
 				</Route>
-				<Route exact path={`/dashboard/settings`}>
-					<p>Welcome Admin Settings</p>
+				<Route exact path={`/dashboard/users`}>
+					<UsersDashboard
+						current_user={current_user}
+						token={token}
+						devApi={devApi}
+						devURL={devURL}
+						reloadUser={reloadUser}
+					/>
+				</Route>
+				<Route>
+					<h1>Not Found </h1>
 				</Route>
 			</Switch>
 		</>

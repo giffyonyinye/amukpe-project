@@ -145,7 +145,7 @@
 /* Alert Styles Section */
 .alert{
     color: var(--aliceblue);
-    border-radius: 0px;
+    border-radius: 10px;
     font-family: var(--arima);
     border: none;
 }

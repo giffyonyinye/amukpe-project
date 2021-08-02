@@ -1,14 +1,16 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Modal from 'react-modal';
 import axios from "axios";
 import * as ImIcons from "react-icons/im";
 import * as TiIcons from "react-icons/ti";
 import {Link} from "react-router-dom";
+import Moment from "react-moment";
 
 const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 
 	const [jobModal, setJobModal] = useState(false);
 	const [disabled, setDisabled] = useState(false);
+	const [jobs, setJobs] = useState([]);
 
 	const [addSuccess, setAddSuccess] = useState({
 		job_id: "",
@@ -18,6 +20,31 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 	const toggleModal = () => {
 		setJobModal(!jobModal);
 		setDisabled(!disabled);
+	}
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/all/`,
+		}).then((res) => {
+			console.log(res.data);
+			setJobs(res.data.jobs);
+		});
+	}, [token, devApi]);
+
+	const reloadJobs = () => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/all/`,
+		}).then((res) => {
+			setJobs(res.data.jobs);
+		});
 	}
 
 	return (
@@ -32,6 +59,7 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 					devURL={devURL}
 					reloadUser={reloadUser}
 					setAddSuccess={setAddSuccess}
+					reloadJobs={reloadJobs}
 				/>
 				:''
 			}
@@ -57,6 +85,21 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 							}
 						</div>
 
+						{
+							jobs.length !== 0?
+							jobs.map((value, index) => {
+								return (
+									<JobSingleCard
+										job={value}
+										key={index}
+										devURL={devURL}
+									/>
+								)
+							}):''
+						}
+
+						<br />
+
 						<button
 							id="add_job_button"
 							onClick={toggleModal}
@@ -70,8 +113,30 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 	)
 }
 
+const JobSingleCard = ({job, devURL}) => {
+	return (
+		<div className="card job_dashboard_singlecards">
+			<img
+				src={`${devURL}img/icon/${job.icon}`}
+				alt="jobIcon"
+			/>
+			<span id="first">{job.title}</span>
+			<div className="pl-2 pt-2 pb-1">
+				<span><i>Salary: </i>{job.salary}</span>
+				<span><i>Posted On:</i> <Moment format="DD MMM YYYY">
+				{job.date_added}</Moment></span>
+			</div>
+			<div className="d-flex justify-content-end">
+				<Link to={`/dashboard/jobs/${job.job_id}`}>
+					Visit
+				</Link>
+			</div>
+		</div>
+	)
+}
+
 const AddJobModal = ({setAddSuccess, toggleModal, current_user, token, 
-	devApi, devURL, reloadUser}) => {
+	devApi, devURL, reloadUser, reloadJobs}) => {
 
 	const [uploadingJob, setUploadingJob] = useState(false);
 	const [jobTitle, setJobTitle] = useState("");
@@ -107,7 +172,8 @@ const AddJobModal = ({setAddSuccess, toggleModal, current_user, token,
 				setAddSuccess({
 					job_id:res.data.job.job_id,
 					state: true
-				})
+				});
+				reloadJobs();
 				toggleModal();
 			}
 		});

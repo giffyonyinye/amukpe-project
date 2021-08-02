@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import * as ImIcons from "react-icons/im";
 import * as TiIcons from "react-icons/ti";
 import Moment from 'react-moment';
+import {Link} from "react-router-dom";
 
 const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 
@@ -74,6 +75,7 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 
 	const [applying, setApplying] = useState(false);
 	const [applied, setApplied] = useState(null);
+	const [applyError, setApplyError] = useState(true);
 
 	useEffect(() => {
 		if (job !== null){
@@ -89,17 +91,32 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 
 	const applyForJob = () => {
 		const id = window.location.pathname.split('/')[3];
-		setApplying(true);
-		axios({
-			method: "PUT",
-			headers: {
-				'Authorization': token
-			},
-			url: `${devApi}jobs/apply/${id}/${current_user.email}/`,
-		}).then((res) => {
-			console.log(res.data);
-			setApplying(false);
-		});
+
+		const infos = ["passport", "dob", "gender", "number", "state", "city", 
+			"address", "qualification", "cv"]
+		const current_infos = []
+		
+		Object.keys(current_user).forEach(key => {
+			current_infos.push(key);
+		})
+
+		const found = infos.some(r=> current_infos.includes(r))
+
+		if (found !== false){
+			setApplying(true);
+			axios({
+				method: "PUT",
+				headers: {
+					'Authorization': token
+				},
+				url: `${devApi}jobs/apply/${id}/${current_user.email}/`,
+			}).then((res) => {
+				console.log(res.data);
+				setApplying(false);
+			});
+		}else{
+			setApplyError(true);
+		}
 
 	}
 
@@ -116,6 +133,19 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 						<p>{job.title} - Details</p>
 					</div>
 					<div className="body">
+						<div id="error_div">
+							{
+								applyError?
+								<div className="alert danger_alert">
+									Please Complete Your Profile And 
+										Resume Settings to Apply for Jobs
+									<i onClick={() => setApplyError(false)}>
+										<TiIcons.TiTimes />
+									</i>
+								</div>
+								:''
+							}
+						</div>
 						<span>Job Title: {job.title}</span>
 						<span>Job Location: {job.location}</span>
 						<span>Job Salary: {job.salary}</span>
@@ -154,6 +184,12 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 
 const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 	devURL, reloadUser, job}) => {
+
+	const showApplicants = (e) => {
+		e.preventDefault();
+		console.log(job.applications);
+	}
+
 	return (
 		<div className="col-xl-5 pl-2 pr-1">
 			{
@@ -176,6 +212,13 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 
 						<i id="description_header">Job Description: </i>
 						<span>{job.description}</span>
+						<Link
+							to="/job/applicants"
+							id="view_application"
+							onClick={showApplicants}
+						>
+							View Applicants
+						</Link>
 						<br />
 						<button
 							id="add_job_button"
