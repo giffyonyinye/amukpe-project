@@ -1,6 +1,7 @@
 import {useState} from "react";
 import * as TiIcons from "react-icons/ti";
 import * as ImIcons from "react-icons/im";
+import * as AiIcons from "react-icons/ai";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import community from "../assets/img/community.svg";
@@ -10,6 +11,7 @@ const Login = ({devApi, setUser, setToken}) => {
 
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
+	const [passwordType, setPasswordType] = useState("password");
 
 	const [acctError, setAcctError] = useState(false);
 	const [proccess, setProccess] = useState(false);
@@ -37,6 +39,16 @@ const Login = ({devApi, setUser, setToken}) => {
 				setToken(res.data.token);
 			}
 		});
+	}
+
+	const toggleShowPassword = (e) => {
+		e.preventDefault();
+		if (passwordType === "password"){
+			setPasswordType("text");
+		}
+		if (passwordType === "text"){
+			setPasswordType("password");
+		}
 	}
 
 	return (
@@ -78,20 +90,46 @@ const Login = ({devApi, setUser, setToken}) => {
 													id="signin_email"
 													required={true}
 													value={email}
-													onChange={(e) => setEmail(e.target.value)}
+													onChange={(e) => 
+														setEmail(e.target.value)}
 												/>
 											</div>
 											<div className="col-sm-6 form-group auth_group">
-												<input
-													type="password"
-													name="signin_password"
-													placeholder="Password"
-													className="form-control auth__input"
-													id="signin_password"
-													required={true}
-													value={password}
-													onChange={(e) => setPassword(e.target.value)}
-												/>
+												<div
+													style={{
+														display: "flex"
+													}}
+												>
+													<input
+														type={passwordType}
+														name="signin_password"
+														placeholder="Password"
+														className="form-control auth__input"
+														id="signin_password"
+														required={true}
+														value={password}
+														onChange={(e) => 
+															setPassword(e.target.value)}
+													/>
+													<button
+														type="button"
+														onClick={toggleShowPassword}
+													>
+														<AiIcons.AiFillEye />
+													</button>
+												</div>
+												<Link
+													to="/forgotten/password"
+													style={{
+														fontSize: "11px",
+														paddingLeft: "5px",
+														paddingRight: "5px",
+														fontFamily: "var(--arima)",
+														color: "var(--main-color)"
+													}}
+												>
+													Forgotten Password?
+												</Link>
 											</div>
 										</div>
 										<br />

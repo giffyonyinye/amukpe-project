@@ -3,9 +3,30 @@ import * as BsIcons from "react-icons/bs";
 import * as HiIcons from "react-icons/hi";
 import * as MdIcons from "react-icons/md";
 import * as AiIcons from "react-icons/ai";
+import * as TiIcons from "react-icons/ti";
 import {Link} from "react-router-dom";
+import {useState, useEffect} from "react";
+import axios from "axios";
 
-const DashboardCard = ({current_user}) => {
+const DashboardCard = ({current_user, devApi, token, changedPassword, 
+	setChangedPassword}) => {
+
+	const [appliedJobs, setAppliedJobs] = useState([]);
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}user/${current_user.email}/jobs/applied/`,
+		}).then((res) => {
+			if (res.data.message === undefined){
+				setAppliedJobs(res.data.applied_jobs);
+			}
+		});
+	}, [devApi, token, current_user.email])
+
 	return(
 		<div className="col-xl-5 pl-2 pr-1">
 			<div className="card dashboard_card">
@@ -13,10 +34,25 @@ const DashboardCard = ({current_user}) => {
 					<p>Dashboard</p>
 				</div>
 				<div className="body">
+					<div id="error_div">
+						{
+							changedPassword?
+							<div className="alert danger_alert">
+								Your password has been set to <strong
+									style={{fontWeight:"bold"}}
+								>123456 </strong>
+								Please change it <Link to="/dashboard/settings">
+									From Here</Link>
+								<i onClick={() => setChangedPassword(false)}>
+									<TiIcons.TiTimes />
+								</i>
+							</div>:''
+						}
+					</div>
 					<div className="row">
 						<div className="col-xl-6 progress_cardcol">
 							<div className="card progress_cards">
-								<span>Jobs Applied To: {current_user.applied_to}</span>
+								<span>Jobs Applied To: {appliedJobs.length}</span>
 								<BiIcons.BiBriefcase
 									className="first"
 								/>

@@ -1,10 +1,12 @@
 import {useState} from "react";
 import axios from "axios";
 import * as ImIcons from "react-icons/im";
+import * as TiIcons from "react-icons/ti";
 
 const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 
 	const [saving, setSaving] = useState(false);
+	const [success, setSuccess] = useState(false);
 
 	const [cv, setCv] = useState({});
 	const [passport, setPassport] = useState({});
@@ -34,6 +36,7 @@ const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 			setSaving(false);
 			console.log(res.data);
 			reloadUser();
+			setSuccess(true);
 		});
 
 	}
@@ -59,6 +62,18 @@ const ResumeCard = ({current_user, token, devApi, reloadUser}) => {
 					></div>
 
 					<form onSubmit={saveResume}>
+						<div id="error_div">
+							{
+								success?
+								<div className="alert success_alert">
+									Resume Details Saved Successfully
+									<i onClick={() => setSuccess(false)}>
+										<TiIcons.TiTimes />
+									</i>
+								</div>
+								:''
+							}
+						</div>
 						<div className="row">
 							<div className="col-xl-6">
 								<div className="form-group">

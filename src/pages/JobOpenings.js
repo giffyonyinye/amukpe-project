@@ -43,6 +43,14 @@ const JobOpenings = ({devApi, devURL}) => {
 }
 
 const JobSingleCard = ({job, devURL}) => {
+
+	const [showMoreInfo, setShowMoreInfo] = useState(false);
+
+	const showMore = (e) => {
+		e.preventDefault();
+		setShowMoreInfo(!showMoreInfo);
+	}
+
 	return (
 		<div className="card job_dashboard_singlecards">
 			<img
@@ -50,21 +58,28 @@ const JobSingleCard = ({job, devURL}) => {
 				alt="jobIcon"
 			/>
 			<span id="first">{job.title}</span>
-			<div className="pl-2 pt-2 pb-1">
+			<div className="pl-2 pt-2 pb-2 ">
 				<span><i>Salary: </i>{job.salary}</span>
 				<span><i>Posted On:</i> <Moment format="DD MMM YYYY">
 				{job.date_added}</Moment></span>
 			</div>
-			<br />
-			<span><i>Job Description: </i>
-				<br />
-				{job.description}
-			</span>
-			<div className="d-flex justify-content-end">
-				<Link to={`/dashboard/jobs/${job.job_id}`}>
-					Visit
-				</Link>
-			</div>
+			<Link to="/seemore" onClick={showMore}>
+				see more
+			</Link>
+			{
+				showMoreInfo?
+				<div className="pt-2 pl-2 pr-1">
+					<span className="pb-2"><i>Job Description: </i>
+						<br />
+						{job.description}
+					</span>
+					<div className="d-flex justify-content-end">
+						<Link to={`/dashboard/jobs/${job.job_id}`}>
+							Apply
+						</Link>
+					</div>
+				</div>:''
+			}
 		</div>
 	)
 }

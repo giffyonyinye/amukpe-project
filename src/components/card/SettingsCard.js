@@ -21,6 +21,15 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 	const [error, setError] = useState(false);
 	const [emailError, setEmailError] = useState(false);
 
+	const [updatingPassword, setUpdatingPassword] = useState(false);
+	const [oldPassword, setOldPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
+	const [passwordLikeError, setPasswordLikeError] = useState(false);
+	const [oldPasswordError, setOldPasswordError] = useState(null);
+	const [passwordSuccess, setPasswordSuccess] = useState(false)
+
 	const updateProfile = (e) => {
 		e.preventDefault();
 		setSaving(true);
@@ -51,6 +60,40 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 			setSaving(false);
 		});
 
+	}
+
+	const savePassword = (e) => {
+		e.preventDefault();
+		if (confirmNewPassword !== newPassword){
+			setPasswordLikeError(true);
+		}else{
+			setUpdatingPassword(true);
+			setPasswordLikeError(false);
+			console.log("processing");
+
+			axios({
+				method: "PUT",
+				data: {oldPassword, newPassword},
+				headers: {
+					'Authorization': token
+				},
+				url: `${devApi}user/${current_user.email}/change/password`,
+			}).then((res) => {
+				console.log(res.data);
+				setUpdatingPassword(false);
+				setOldPassword("");
+				setNewPassword("");
+				setConfirmNewPassword("");
+
+				if (res.data.message === true){
+					setOldPasswordError(false);
+					setPasswordSuccess(true);
+				}else{
+					setOldPasswordError(true);
+				}
+			});
+
+		}
 	}
 
 	return(
@@ -236,6 +279,101 @@ const SettingsCard = ({current_user, token, devApi, reloadUser}) => {
 									<ImIcons.ImSpinner4 />
 									:'Save'
 								} 
+							</button>
+						</div>
+					</form>
+					<br />
+					<form onSubmit={savePassword}>
+						<div className="card  credentials_card">
+							<span className="first">Security Settings - 
+								Change Password</span>
+							<div id="error_div">
+								{
+									passwordSuccess?
+									<div className="alert success_alert">
+										Password Succesfully Changed
+										<i onClick={(e) => setPasswordSuccess(false)}>
+											<TiIcons.TiTimes />
+										</i>
+									</div>:''
+								}
+							</div>
+							<div className="row">
+								<div className="col-xl-4 pr-0">
+									<div className="form-group">
+										<input
+											type="text"
+											className="form-control auth__input"
+											placeholder="Old Password"
+											required={true}
+											value={oldPassword}
+											onChange={
+												(e) => setOldPassword(e.target.value)
+											}
+										/>
+										{
+											oldPasswordError?
+											<p style={{
+												color: "red",
+												fontSize: "10px",
+												fontStyle: "normal",
+												marginBottom: "0px",
+												paddingLeft: "2px"
+											}}>
+												Old Password is incorrect</p>
+											:''
+										}
+									</div>
+								</div>
+								<div className="col-xl-4 pr-1 pl-1">
+									<div className="form-group">
+										<input
+											type="text"
+											className="form-control auth__input"
+											placeholder="New Password"
+											required={true}
+											value={newPassword}
+											onChange={
+												(e) => setNewPassword(e.target.value)
+											}
+										/>
+									</div>
+								</div>
+								<div className="col-xl-4 pl-0">
+									<div className="form-group">
+										<input
+											type="text"
+											className="form-control auth__input"
+											placeholder="New Password (Again)"
+											required={true}
+											value={confirmNewPassword}
+											onChange={
+												(e) => setConfirmNewPassword(e.target.value)
+											}
+										/>
+										{
+											passwordLikeError?
+											<p style={{
+												color: "red",
+												fontSize: "10px",
+												fontStyle: "normal",
+												marginBottom: "0px",
+												paddingLeft: "2px"
+											}}>
+												Passwords must match</p>
+											:''
+										}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="save__button">
+							<button type="submit" id="save__button">
+								{
+									updatingPassword?
+									<ImIcons.ImSpinner4 />
+									:'Save Password'
+								}
 							</button>
 						</div>
 					</form>

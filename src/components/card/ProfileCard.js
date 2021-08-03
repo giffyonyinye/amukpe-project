@@ -2,9 +2,27 @@ import "../../assets/css/profile.css";
 import AvatarImg from "../../assets/img/avatar.png";
 import {Link} from "react-router-dom";
 import Moment from 'react-moment';
-//import {useState} from "react";
+import {useState, useEffect} from "react";
+import axios from "axios";
 
-const ProfileCard = ({current_user, devURL}) => {
+const ProfileCard = ({current_user, devURL, devApi, token}) => {
+
+	const [appliedJobs, setAppliedJobs] = useState([]);
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}user/${current_user.email}/jobs/applied/`,
+		}).then((res) => {
+			if (res.data.message === undefined){
+				setAppliedJobs(res.data.applied_jobs);
+			}
+		});
+	}, [devApi, token, current_user.email])
+
 	return(
 		<>
 			{
@@ -110,6 +128,24 @@ const ProfileCard = ({current_user, devURL}) => {
 									<>City: {current_user.city}</>:''
 								}
 							</span>
+							<div>
+								<span>Applied Jobs: {appliedJobs.length}</span>
+								<br />
+								<div>
+									{
+										appliedJobs.length > 0?
+										appliedJobs.map((value, index) => {
+											return(
+												<JobSingleCard
+													job={value}
+													key={index}
+													devURL={devURL}
+												/>
+											)
+										}):''
+									}
+								</div>
+							</div>
 							<br />
 							<Link
 								to="/dashboard/settings"
@@ -122,6 +158,43 @@ const ProfileCard = ({current_user, devURL}) => {
 				</div>:''
 			}
 		</>
+	)
+}
+
+const JobSingleCard = ({job, devURL}) => {
+	return (
+		<div className="card job_dashboard_singlecards">
+			<img
+				src={`${devURL}img/icon/${job.icon}`}
+				alt="jobIcon"
+			/>
+			<span id="first"
+				style={{
+					marginBottom: "0px",
+					marginTop: "0px"
+				}}
+			>{job.title}</span>
+			<div className="pl-2 pt-2 pb-1">
+				<span
+					style={{
+						marginTop: "0px",
+						marginBottom: "1px"
+					}}
+				><i>Salary: </i>{job.salary}</span>
+				<span
+					style={{
+						marginBottom: "0px",
+						marginTop: "1px"
+					}}
+				><i>Posted On:</i> <Moment format="DD MMM YYYY">
+				{job.date_added}</Moment></span>
+			</div>
+			<div className="d-flex justify-content-end">
+				<Link to={`/dashboard/jobs/${job.job_id}`}>
+					Visit
+				</Link>
+			</div>
+		</div>
 	)
 }
 

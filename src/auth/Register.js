@@ -1,6 +1,7 @@
 import {useState} from "react";
 import * as TiIcons from "react-icons/ti";
 import * as ImIcons from "react-icons/im";
+import * as AiIcons from "react-icons/ai";
 import {Link, Redirect} from "react-router-dom";
 import job from "../assets/img/job.svg";
 import "../assets/css/auth.css";
@@ -16,6 +17,8 @@ const Register = ({devApi}) => {
 	const [acctError, setAcctError] = useState(false);
 	const [proccess, setProccess] = useState(false);
 	const [done, setDone] = useState(false);
+
+	const [passwordType, setPasswordType] = useState("password");
 
 	const handleRegister = (e) => {
 		e.preventDefault();
@@ -41,6 +44,16 @@ const Register = ({devApi}) => {
 				setAcctError(true);
 			}
 		});
+	}
+
+	const toggleShowPassword = (e) => {
+		e.preventDefault();
+		if (passwordType === "password"){
+			setPasswordType("text");
+		}
+		if (passwordType === "text"){
+			setPasswordType("password");
+		}
 	}
 
 	return (
@@ -116,16 +129,29 @@ const Register = ({devApi}) => {
 												/>
 											</div>
 											<div className="col-sm-6 form-group auth_group">
-												<input
-													type="password"
-													name="auth_password"
-													placeholder="Password"
-													className="form-control auth__input"
-													id="signup_password"
-													required={true}
-													value={password}
-													onChange={(e) => setPassword(e.target.value)}
-												/>
+												<div
+													style={{
+														display: "flex"
+													}}
+												>
+													<input
+														type={passwordType}
+														name="auth_password"
+														placeholder="Password"
+														className="form-control auth__input"
+														id="signup_password"
+														required={true}
+														value={password}
+														onChange={(e) => 
+															setPassword(e.target.value)}
+													/>
+													<button
+														type="button"
+														onClick={toggleShowPassword}
+													>
+														<AiIcons.AiFillEye />
+													</button>
+												</div>
 											</div>
 										</div>
 										<br />

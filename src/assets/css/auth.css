@@ -10,7 +10,21 @@
 	text-align: left;
 	color: var(--main-color);
 }
-.auth_group{
+.auth_group button{
+	border-radius: 0px;
+	transition: 0.4s all ease-in-out;
+	border: 1px solid var(--main-color)!important; 
+	outline: none!important;
+	text-decoration: none !important;
+	font-weight: 300!important;
+	box-shadow: none;
+	color: var(--aliceblue);
+	text-align: center;
+	font-family: var(--bree);
+	background: var(--main-color);	
+}
+.auth_group button:hover{
+	filter: brightness(50%);
 }
 .auth__input{
 	border-radius: 0px;

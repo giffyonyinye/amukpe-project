@@ -16,9 +16,6 @@ const Admin = ({current_user, token, devApi, devURL, reloadUser}) => {
 						reloadUser={reloadUser}
 					/>
 				</Route>
-				<Route exact path={`/dashboard/profile`}>
-					<p>Welcome Admin Profile</p>
-				</Route>
 				<Route exact path={`/dashboard/jobs`}>
 					<DashboardJobCard
 						current_user={current_user}

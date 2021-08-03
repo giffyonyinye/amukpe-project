@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect }
 import AuthToken from './auth/authToken';
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import ForgottenPassword from "./auth/ForgottenPassword";
 import Navbar from "./components/navigation/Navbar";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
@@ -21,6 +22,7 @@ export default function App(){
     const { token, removeToken, setToken, removeUser, setUser } = AuthToken();
     const [currentComponent, setCurrentComponent] = useState("home");
     const [current_user, setCurrentUser] = useState(null);
+    const [changedPassword, setChangedPassword] = useState(false)
 
     const logout = () => {
         removeToken();
@@ -29,7 +31,6 @@ export default function App(){
 
     useEffect(() => {
         if (token){
-            console.log("Got Here")
             axios({
                 method: 'GET',
                 url: `${prodApi}current_user/`,
@@ -37,7 +38,6 @@ export default function App(){
                     'Authorization': token
                 }
             }).then((res) => {
-                console.log(res);
                 if (res.data.message === false){
                     window.localStorage.clear();
                 }else{
@@ -94,6 +94,8 @@ export default function App(){
                                 token={token}
                                 reloadUser={reloadUser}
                                 current_user={current_user !== null?current_user:''}
+                                setChangedPassword={setChangedPassword}
+                                changedPassword={changedPassword}
                             />
                             :
                             <Login
@@ -128,6 +130,19 @@ export default function App(){
                             :
                             <Register
                                 devApi={prodApi}
+                            />
+                        }
+                    </Route>
+                    <Route exact path="/forgotten/password">
+                        {
+                            token?
+                            <Redirect to="/dashboard" />
+                            :
+                            <ForgottenPassword
+                                devApi={prodApi}
+                                setUser={setUser}
+                                setChangedPassword={setChangedPassword}
+                                setToken={setToken}
                             />
                         }
                     </Route>

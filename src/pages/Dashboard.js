@@ -12,7 +12,8 @@ import SingleUserCard from "../components/card/SingleUserCard";
 
 import Admin from "./admin/Admin";
 
-const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) => {
+const Dashboard = ({current_user, logout, token, devApi, devURL,
+ 	reloadUser, changedPassword, setChangedPassword}) => {
 	return (
 		<div className="container-fluid custom__container pt-5">
 			<div className="row justify-content-center">
@@ -50,6 +51,8 @@ const Dashboard = ({current_user, logout, token, devApi, devURL, reloadUser}) =>
 									devApi={devApi}
 									devURL={devURL}
 									reloadUser={reloadUser}
+									setChangedPassword={setChangedPassword}
+									changedPassword={changedPassword}
 								/>
 							</Route>
 							<Route path={`/dashboard/profile`}>

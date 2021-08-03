@@ -4,12 +4,14 @@ import Modal from 'react-modal';
 import * as ImIcons from "react-icons/im";
 import * as TiIcons from "react-icons/ti";
 import Moment from 'react-moment';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 
 	const [job, setJob] = useState(null);
 	const [editJobModal, setEditJobModal] = useState(false);
+	const [deleted, setDeleted] = useState(false);
+	const [notFound, setNotFound] = useState(false);
 
 	const toggleModal = () => {
 		console.log("Togggling....")
@@ -25,57 +27,100 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 			},
 			url: `${devApi}jobs/get/single/${id}/`,
 		}).then((res) => {
-			setJob(res.data.job);
+			if (res.data.message === true){
+				setJob(res.data.job);
+			}else{
+				setNotFound(true);
+			}
 		});
 	}, [token, devApi]);
+
+	const reloadJob = () => {
+		const id = window.location.pathname.split('/')[3];
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/single/${id}/`,
+		}).then((res) => {
+			if (res.data.message === true){
+				setJob(res.data.job);
+			}else{
+				setNotFound(true);
+			}
+		});	
+	}
 
 	return (
 		<>
 			{
-				editJobModal?
-				<EditModal
-					current_user={current_user}
-					token={token}
-					devApi={devApi}
-					devURL={devURL}
-					reloadUser={reloadUser}
-					job={job}
-					setJob={setJob}
-					toggleModal={toggleModal}
-				/>:''
-			}
-			{
-				current_user.password !== "admin_login_id"?
-				<UserJobsCard
-					current_user={current_user}
-					token={token}
-					devApi={devApi}
-					devURL={devURL}
-					reloadUser={reloadUser}
-					job={job}
-					toggleModal={toggleModal}
-				/>
+				deleted?
+				<Redirect to="/dashboard/jobs" />
 				:
-				<AdminJobsCard
-					current_user={current_user}
-					token={token}
-					devApi={devApi}
-					devURL={devURL}
-					reloadUser={reloadUser}
-					job={job}
-					toggleModal={toggleModal}
-				/>
+				<>
+					{
+						notFound?
+						<div className="col-xl-5 pl-2 pr-1">
+							<div className="card dashboard_card p-4">
+								<h1>Job Not Found</h1>
+							</div>
+						</div>
+						:
+						<>
+							{
+								editJobModal?
+								<EditModal
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+									job={job}
+									setJob={setJob}
+									toggleModal={toggleModal}
+								/>:''
+							}
+							{
+								current_user.password !== "admin_login_id"?
+								<UserJobsCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+									job={job}
+									toggleModal={toggleModal}
+									reloadJob={reloadJob}
+								/>
+								:
+								<AdminJobsCard
+									current_user={current_user}
+									token={token}
+									devApi={devApi}
+									devURL={devURL}
+									reloadUser={reloadUser}
+									job={job}
+									toggleModal={toggleModal}
+									setDeleted={setDeleted}
+								/>
+							}
+						</>
+					}
+				</>
 			}
 		</>
 	)
 }
 
 const UserJobsCard = ({toggleModal, current_user, token, devApi,
-	devURL, reloadUser, job}) => {
+	devURL, reloadUser, job, reloadJob}) => {
 
 	const [applying, setApplying] = useState(false);
 	const [applied, setApplied] = useState(null);
-	const [applyError, setApplyError] = useState(true);
+	const [applyError, setApplyError] = useState(false);
+	const [applySuccess, setApplySuccess] = useState(false);
+	const [applicants, setApplicants] = useState([]);
 
 	useEffect(() => {
 		if (job !== null){
@@ -88,6 +133,12 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 			}
 		}
 	}, [current_user, job])
+
+	const showApplicants = (e) => {
+		e.preventDefault();
+		console.log(job.applications);
+		setApplicants(job.applications);
+	}
 
 	const applyForJob = () => {
 		const id = window.location.pathname.split('/')[3];
@@ -113,6 +164,8 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 			}).then((res) => {
 				console.log(res.data);
 				setApplying(false);
+				reloadJob();
+				setApplySuccess(true);
 			});
 		}else{
 			setApplyError(true);
@@ -145,6 +198,16 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 								</div>
 								:''
 							}
+							{
+								applySuccess?
+								<div className="alert success_alert">
+									Successfully Applied For This Job
+									<i onClick={() => setApplySuccess(false)}>
+										<TiIcons.TiTimes />
+									</i>
+								</div>
+								:''
+							}
 						</div>
 						<span>Job Title: {job.title}</span>
 						<span>Job Location: {job.location}</span>
@@ -155,6 +218,28 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 
 						<i id="description_header">Job Description: </i>
 						<span>{job.description}</span>
+						<Link
+							to="/job/applicants"
+							id="view_application"
+							onClick={showApplicants}
+						>
+							View Applicants
+						</Link>
+						<br />
+						<div>
+							{
+								applicants.length !== 0?
+								applicants.map((value, index) => {
+									return(
+										<ApplicantsCard
+											user={value}
+											key={index}
+											devURL={devURL}
+										/>
+									)
+								}):''
+							}
+						</div>
 						<br />
 
 						{
@@ -183,11 +268,30 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 }
 
 const AdminJobsCard = ({toggleModal, current_user, token, devApi,
-	devURL, reloadUser, job}) => {
+	devURL, reloadUser, job, setDeleted}) => {
+
+	const [applicants, setApplicants] = useState([]);
 
 	const showApplicants = (e) => {
 		e.preventDefault();
 		console.log(job.applications);
+		setApplicants(job.applications);
+	}
+
+	const deleteJob = () => {
+		console.log(job.job_id)
+		axios({
+			method: "DELETE",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/single/${job.job_id}/delete/`,
+		}).then((res) => {
+			console.log(res.data);
+			if (res.data.message !== false){
+				setDeleted(true);
+			}
+		});
 	}
 
 	return (
@@ -220,11 +324,37 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 							View Applicants
 						</Link>
 						<br />
+						<div>
+							{
+								applicants.length !== 0?
+								applicants.map((value, index) => {
+									return(
+										<ApplicantsCard
+											user={value}
+											key={index}
+											devURL={devURL}
+										/>
+									)
+								}):''
+							}
+						</div>
+						<br />
 						<button
 							id="add_job_button"
 							onClick={toggleModal}
 						>
 							Edit This Job
+						</button>
+						<button
+							id="add_job_button"
+							className="delete"
+							style={{
+								marginRight: "10px",
+								border: "1px solid red"
+							}}
+							onClick={deleteJob}
+						>
+							Delete Job
 						</button>
 					</div>
 				</div>
@@ -383,6 +513,27 @@ const EditModal = ({toggleModal, job, token, devApi, setJob}) => {
 				</form>
 			</div>
 		</Modal>
+	)
+}
+
+const ApplicantsCard = ({user, devURL}) => {
+	return (
+		<div className="card job_dashboard_singlecards">
+			<img
+				src={`${devURL}img/profile/${user.profile_picture}`}
+				alt="jobIcon"
+			/>
+			<div className="pl-1 pt-0 pb-0">
+				<span><i>Name: </i>{user.firstname} {user.lastname}</span>
+				<span><i>Date Joined:</i> <Moment format="DD MMM YYYY">
+				{user.date_joined}</Moment></span>
+			</div>
+			<div className="d-flex justify-content-end">
+				<Link to={`/dashboard/users/${user.email}`}>
+					Visit Profile
+				</Link>
+			</div>
+		</div>
 	)
 }
 
