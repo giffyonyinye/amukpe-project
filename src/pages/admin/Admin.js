@@ -3,7 +3,7 @@ import AdminDashboard from "./components/card/AdminDashboard";
 import DashboardJobCard from "../../components/card/DashboardJobCard";
 import UsersDashboard from "./components/card/UsersDashboard";
 
-const Admin = ({current_user, token, devApi, devURL, reloadUser}) => {
+const Admin = ({current_user, token, devApi, devURL, reloadUser, reloadJobs}) => {
 	return (
 		<>
 			<Switch>
@@ -14,6 +14,7 @@ const Admin = ({current_user, token, devApi, devURL, reloadUser}) => {
 						devApi={devApi}
 						devURL={devURL}
 						reloadUser={reloadUser}
+						reloadSidebarJobs={reloadJobs}
 					/>
 				</Route>
 				<Route exact path={`/dashboard/jobs`}>

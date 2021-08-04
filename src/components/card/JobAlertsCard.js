@@ -1,24 +1,9 @@
 import {Link} from "react-router-dom";
-import {useState, useEffect} from "react";
-import axios from "axios";
+//import {useState, useEffect} from "react";
+//import axios from "axios";
 import Moment from "react-moment";
 
-const JobAlertsCard = ({devApi, token}) => {
-
-	const [jobListing, setJobListing] = useState([]);
-
-	useEffect(() => {
-		axios({
-			method: "GET",
-			headers: {
-				'Authorization': token
-			},
-			url: `${devApi}jobs/get/all/`,
-		}).then((res) => {
-			console.log(res.data);
-			setJobListing(res.data.jobs);
-		});
-	}, [token, devApi]);
+const JobAlertsCard = ({jobListing}) => {
 
 	return(
 		<div className="col-xl-3 pl-2 pr-0">

@@ -3,9 +3,11 @@ import axios from "axios";
 import AvatarImg from "../../assets/img/avatar.png";
 import Moment from "react-moment";
 import {Link} from "react-router-dom";
+import LoadingDiv from "../misc/LoadingDiv";
 
 const SingleUserCard = ({token, devApi, devURL, current_user}) => {
 
+	const [loading, setLoading] = useState(true);
 	const [user, setUser] = useState(null);
 	const [appliedJobs, setAppliedJobs] = useState([]);
 
@@ -27,6 +29,7 @@ const SingleUserCard = ({token, devApi, devURL, current_user}) => {
 				url: `${devApi}user/${res.data.user.email}/jobs/applied/`,
 			}).then((res) => {
 				setAppliedJobs(res.data.applied_jobs);
+				setLoading(false);
 			});
 		});
 
@@ -36,134 +39,147 @@ const SingleUserCard = ({token, devApi, devURL, current_user}) => {
 		<div className="col-xl-5 pl-2 pr-1">
 			<div className="card profile__card">
 				{
-					user !== null?
+					loading?
+					<LoadingDiv />
+					:
 					<>
-						<div className="header">
-							{
-								user.profile_picture === "default.webp"?
-								<img
-									src={AvatarImg}
-									alt="profilePicture"
-									className="avatar_img"
-								/>
-								:
-								<img
-									src={`${devURL}img/profile/
-									${user.profile_picture}`}
-									alt="profilePicture"
-									className="avatar_img"
-								/>
-							}
-							<p>
-								{user.firstname} {user.lastname} - 
-									@{user.email}
-								<span>Joined: <Moment format="YYYY/MM/DD">
-										{user.date_joined}</Moment>
-								</span>
-								<span>
+					{
+						user !== null?
+						<>
+							<div className="header">
+								{
+									user.profile_picture === "default.webp"?
+									<img
+										src={AvatarImg}
+										alt="profilePicture"
+										className="avatar_img"
+									/>
+									:
+									<img
+										src={`${devURL}img/profile/
+										${user.profile_picture}`}
+										alt="profilePicture"
+										className="avatar_img"
+									/>
+								}
+								<p>
+									{user.firstname} {user.lastname} - 
+										@{user.email}
+									<span>Joined: <Moment format="YYYY/MM/DD">
+											{user.date_joined}</Moment>
+									</span>
 									{
 										user.gender !== undefined?
-										`Gender: ${user.gender}`:''
+										<span>
+											Gender: ${user.gender}
+										</span>:''
 									}
-								</span>
-								<span>
 									{
 										user.number !== undefined?
-										`Contact: ${user.number}`:''
+										<span>
+											Contact: ${user.number}
+										</span>:''
 									}
-								</span>
-								<span>
 									{
 										user.qualification !== undefined?
-										`Qualification: ${user.qualification}`:''
+										<span>
+											Qualification: ${user.qualification}
+										</span>:''
 									}
-								</span>
-								<span>
 									{
 										user.cv !== undefined?
-										<>Resume: 
-										<Link
-											to={`/preview/file/${user.cv}/`}> 
-												{user.cv}
-										</Link></>:''
+										<span>Resume: 
+											<Link
+												to={`/preview/file/${user.cv}/`}> 
+													{user.cv}
+											</Link>
+										</span>:''
 									}
-								</span>
-							</p>
-						</div>
-						<div className="body">
-												<div
-								className="divider"
-								style={{
-									marginTop: "0px",
-									marginBottom: "15px",
-									padding: "0.4px",
-								}}
-							></div>
+								</p>
+							</div>
+							<div className="body">
+													<div
+									className="divider"
+									style={{
+										marginTop: "0px",
+										marginBottom: "15px",
+										padding: "0.4px",
+									}}
+								></div>
 
-							{
-								user.passport !== undefined?
-								<img
-									src={`${devURL}img/passport/${user.passport}`}
-									alt="passportImg"
-
-									className="passport_img"
-								/>:''
-							}
-
-							<span className="active">
 								{
-									user.dob !== undefined?
-									<>Date Of Birth: <Moment format="DD/MM/YYYY">
-										{user.dob}</Moment></>:''
+									user.passport !== undefined?
+									<img
+										src={`${devURL}img/passport/${user.passport}`}
+										alt="passportImg"
+
+										className="passport_img"
+									/>:''
 								}
-							</span>
-							<span>
+
+									{
+										user.dob !== undefined?
+										<span>
+											Date Of Birth: <Moment format="DD/MM/YYYY">
+											{user.dob}</Moment>
+										</span>:''
+								}
 								{
 									user.address !== undefined?
-									<>Current Address: {user.address}</>:''
+									<span>
+										Current Address: {user.address}
+									</span>:''
 								}
-							</span>
-							<span>
 								{
 									user.state !== undefined?
-									<>State: {user.state}</>:''
+									<span>
+										State: {user.state}
+									</span>:''
 								}
-							</span>
-							<span>
 								{
 									user.city !== undefined?
-									<>City: {user.city}</>:''
+									<span>
+										City: {user.city}
+									</span>:''
 								}
-							</span>
-							<div>
-								<span>Applied Jobs: {appliedJobs.length}</span>
-								<br />
+								
 								<div>
-									{
-										appliedJobs.length > 0?
-										appliedJobs.map((value, index) => {
-											return(
-												<JobSingleCard
-													job={value}
-													key={index}
-													devURL={devURL}
-												/>
-											)
-										}):''
-									}
+									<span>Applied Jobs: {appliedJobs.length}</span>
+									<br />
+									<div>
+										{
+											appliedJobs.length > 0?
+											appliedJobs.map((value, index) => {
+												return(
+													<JobSingleCard
+														job={value}
+														key={index}
+														devURL={devURL}
+													/>
+												)
+											}):''
+										}
+									</div>
 								</div>
+								<br />
+								{
+									current_user.email === user.email?
+									<>
+									<Link
+										to="/dashboard/settings"
+										id="add_job_button"
+									>
+										Edit Your Profile
+									</Link>
+									<br />
+									</>
+									:''
+								}
 							</div>
-							<br />
-							<Link
-								to="/dashboard/settings"
-								id="add_job_button"
-							>
-								Edit Your Profile
-							</Link>
-							<br />
-						</div>
+						</>
+						:''
+					}
 					</>
-					:''
 				}
 			</div>
 		</div>

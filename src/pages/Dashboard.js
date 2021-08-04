@@ -9,11 +9,40 @@ import DashboardJobCard from "../components/card/DashboardJobCard";
 import DashboardSidebar from "../components/navigation/DashboardSidebar";
 import SingleJobCard from "../components/card/SingleJobCard";
 import SingleUserCard from "../components/card/SingleUserCard";
+import axios from "axios";
+import {useState, useEffect} from "react";
 
 import Admin from "./admin/Admin";
 
 const Dashboard = ({current_user, logout, token, devApi, devURL,
  	reloadUser, changedPassword, setChangedPassword}) => {
+
+	const [jobListing, setJobListing] = useState([]);
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/all/`,
+		}).then((res) => {
+			setJobListing(res.data.jobs);
+		});
+	}, [token, devApi]);
+
+	const reloadJobs = () => {
+		axios({
+			method: "GET",
+			headers: {
+				'Authorization': token
+			},
+			url: `${devApi}jobs/get/all/`,
+		}).then((res) => {
+			setJobListing(res.data.jobs);
+		});	
+	}
+
 	return (
 		<div className="container-fluid custom__container pt-5">
 			<div className="row justify-content-center">
@@ -30,6 +59,7 @@ const Dashboard = ({current_user, logout, token, devApi, devURL,
 							devApi={devApi}
 							devURL={devURL}
 							reloadUser={reloadUser}
+							reloadSidebarJob={reloadJobs}
 						/>
 					</Route>
 					<Route path={`/dashboard/users/:email`}>
@@ -100,6 +130,7 @@ const Dashboard = ({current_user, logout, token, devApi, devURL,
 							devApi={devApi}
 							devURL={devURL}
 							reloadUser={reloadUser}
+							reloadJobs={reloadJobs}
 						/>
 						</>
 					}
@@ -111,6 +142,7 @@ const Dashboard = ({current_user, logout, token, devApi, devURL,
 					devApi={devApi}
 					devURL={devURL}
 					reloadUser={reloadUser}
+					jobListing={jobListing}
 				/>
 			</div>
 			<br />

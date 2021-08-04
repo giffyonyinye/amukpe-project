@@ -4,9 +4,12 @@ import {Link} from "react-router-dom";
 import Moment from 'react-moment';
 import {useState, useEffect} from "react";
 import axios from "axios";
+import * as TiIcons from "react-icons/ti";
+import Modal from "react-modal";
 
 const ProfileCard = ({current_user, devURL, devApi, token}) => {
 
+	const [showModal, setShowModal] = useState(false);
 	const [appliedJobs, setAppliedJobs] = useState([]);
 
 	useEffect(() => {
@@ -23,11 +26,25 @@ const ProfileCard = ({current_user, devURL, devApi, token}) => {
 		});
 	}, [devApi, token, current_user.email])
 
+	const toggleModal = (e) => {
+		e.preventDefault();
+		setShowModal(!showModal);
+	}
+
 	return(
 		<>
 			{
 				current_user !== null?
 				<div className="col-xl-5 pl-2 pr-1">
+
+					{
+						showModal?
+						<AddJobModal
+							toggleModal={toggleModal}
+							current_user={current_user}
+						/>
+						:''
+					}
 
 					<div className="card profile__card">
 						<div className="header">
@@ -52,34 +69,35 @@ const ProfileCard = ({current_user, devURL, devApi, token}) => {
 								<span>Joined: <Moment format="YYYY/MM/DD">
 										{current_user.date_joined}</Moment>
 								</span>
-								<span>
-									{
-										current_user.gender !== undefined?
-										`Gender: ${current_user.gender}`:''
-									}
-								</span>
-								<span>
-									{
-										current_user.number !== undefined?
-										`Contact: ${current_user.number}`:''
-									}
-								</span>
-								<span>
-									{
-										current_user.qualification !== undefined?
-										`Qualification: ${current_user.qualification}`:''
-									}
-								</span>
-								<span>
-									{
-										current_user.cv !== undefined?
-										<>Resume: 
+								{
+									current_user.gender !== undefined?
+									<span>
+										Gender: ${current_user.gender}
+									</span>:''
+								}
+								{
+									current_user.number !== undefined?
+									<span>
+										Contact: ${current_user.number}
+									</span>:''
+								}
+								{
+									current_user.qualification !== undefined?
+									<span>
+										Qualification: ${current_user.qualification}
+									</span>:''
+								}
+								{
+									current_user.cv !== undefined?
+									<span>Resume: 
 										<Link
-											to={`/preview/file/${current_user.cv}/`}> 
+											to={`/preview/file/${current_user.cv}/`}
+											onClick={toggleModal}
+										> 
 												{current_user.cv}
-										</Link></>:''
-									}
-								</span>
+										</Link>
+									</span>:''
+								}
 							</p>
 						</div>
 
@@ -103,31 +121,32 @@ const ProfileCard = ({current_user, devURL, devApi, token}) => {
 								/>:''
 							}
 
-							<span className="active">
 								{
 									current_user.dob !== undefined?
-									<>Date Of Birth: <Moment format="DD/MM/YYYY">
-										{current_user.dob}</Moment></>:''
-								}
-							</span>
-							<span>
-								{
-									current_user.address !== undefined?
-									<>Current Address: {current_user.address}</>:''
-								}
-							</span>
-							<span>
-								{
-									current_user.state !== undefined?
-									<>State: {current_user.state}</>:''
-								}
-							</span>
-							<span>
-								{
-									current_user.city !== undefined?
-									<>City: {current_user.city}</>:''
-								}
-							</span>
+									<span>
+										Date Of Birth: <Moment format="DD/MM/YYYY">
+										{current_user.dob}</Moment>
+									</span>:''
+							}
+							{
+								current_user.address !== undefined?
+								<span>
+									Current Address: {current_user.address}
+								</span>:''
+							}
+							{
+								current_user.state !== undefined?
+								<span>
+									State: {current_user.state}
+								</span>:''
+							}
+							{
+								current_user.city !== undefined?
+								<span>
+									City: {current_user.city}
+								</span>:''
+							}
+
 							<div>
 								<span>Applied Jobs: {appliedJobs.length}</span>
 								<br />
@@ -158,6 +177,44 @@ const ProfileCard = ({current_user, devURL, devApi, token}) => {
 				</div>:''
 			}
 		</>
+	)
+}
+
+const AddJobModal = ({toggleModal, current_user}) => {
+
+	Modal.setAppElement('#root');
+	return(
+		<Modal
+			isOpen={true}
+			className="resumeModal"
+			overlayClassName="add_job_modaloverlay"
+			closeTimeoutMS={1000000}
+		>
+			<div className="header">
+				<p>
+					{current_user.firstname} {current_user.lastname} Resume
+					<TiIcons.TiTimes
+						onClick={toggleModal}
+					/>
+				</p>
+			</div>
+			<div className="body">
+				<object
+					data="http://africau.edu/images/default/sample.pdf"
+					type="application/pdf"
+					style={{
+						width: "100%",
+						height: "100%"
+					}}
+				>
+					<p>
+						Alternative text - include a link 
+						<a href="http://africau.edu/images/default/sample.pdf">
+						to the PDF!</a>
+					</p>
+				</object>
+			</div>
+		</Modal>
 	)
 }
 

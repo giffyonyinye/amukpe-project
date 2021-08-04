@@ -12,7 +12,8 @@ const Home = () => {
 					<br />
 					<p className="subheader_text">
 						Creating Awareness and Opportunities in Amukpe Community.
-						Oneness is strength, love and progress. - Modified Version 44 22
+						Oneness is strength, love and progress. - Modified Version 
+						44 22 Nelson's Work
 					</p>
 
 					<br />

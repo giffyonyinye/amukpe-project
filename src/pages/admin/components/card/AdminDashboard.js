@@ -5,9 +5,12 @@ import * as ImIcons from "react-icons/im";
 import * as TiIcons from "react-icons/ti";
 import {Link} from "react-router-dom";
 import Moment from "react-moment";
+import LoadingDiv from "../../../../components/misc/LoadingDiv";
 
-const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
+const AdminDashboard = ({current_user, token, devApi, devURL,
+	reloadUser, reloadSidebarJobs}) => {
 
+	const [loading, setLoading] = useState(true);
 	const [jobModal, setJobModal] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 	const [jobs, setJobs] = useState([]);
@@ -30,8 +33,8 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 			},
 			url: `${devApi}jobs/get/all/`,
 		}).then((res) => {
-			console.log(res.data);
 			setJobs(res.data.jobs);
+			setLoading(false);
 		});
 	}, [token, devApi]);
 
@@ -43,6 +46,7 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 			},
 			url: `${devApi}jobs/get/all/`,
 		}).then((res) => {
+			reloadSidebarJobs();
 			setJobs(res.data.jobs);
 		});
 	}
@@ -85,18 +89,27 @@ const AdminDashboard = ({current_user, token, devApi, devURL, reloadUser}) => {
 							}
 						</div>
 
-						{
-							jobs.length !== 0?
-							jobs.map((value, index) => {
-								return (
-									<JobSingleCard
-										job={value}
-										key={index}
-										devURL={devURL}
-									/>
-								)
-							}):''
-						}
+						<>
+							{
+								loading?
+								<LoadingDiv />
+								:
+								<>
+								{
+									jobs.length !== 0?
+									jobs.map((value, index) => {
+										return (
+											<JobSingleCard
+												job={value}
+												key={index}
+												devURL={devURL}
+											/>
+										)
+									}):''
+								}
+								</>
+							}
+						</>
 
 						<br />
 
@@ -165,10 +178,8 @@ const AddJobModal = ({setAddSuccess, toggleModal, current_user, token,
 			},
 			url: `${devApi}admin/job/add/`,
 		}).then((res) => {
-			console.log(res.data);
 			setUploadingJob(false);
 			if (res.data.message === true){
-				console.log("Done");
 				setAddSuccess({
 					job_id:res.data.job.job_id,
 					state: true

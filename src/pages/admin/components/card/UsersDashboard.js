@@ -3,10 +3,11 @@ import axios from "axios";
 import Moment from "react-moment";
 import {Link} from "react-router-dom";
 import AvatarImg from "../../../../assets/img/avatar.png"
-
+import LoadingDiv from "../../../../components/misc/LoadingDiv";
 
 const UsersDashboard = ({token, devApi, devURL}) => {
 
+	const [loading, setLoading] = useState(true);
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
@@ -18,6 +19,7 @@ const UsersDashboard = ({token, devApi, devURL}) => {
 			url: `${devApi}users/`,
 		}).then((res) => {
 			setUsers(res.data.users);
+			setLoading(false);
 		});
 	}, [token, devApi])
 
@@ -29,17 +31,24 @@ const UsersDashboard = ({token, devApi, devURL}) => {
 				</div>
 				<div className="body">
 					{
-						users.length !== 0?
-						users.map((value, index) => {
-							return(
-								<SingleUser
-									user={value}
-									key={index}
-									devURL={devURL}
-								/>
-							)
-						})
-						:''
+						loading?
+						<LoadingDiv />
+						:
+						<>
+						{
+							users.length !== 0?
+							users.map((value, index) => {
+								return(
+									<SingleUser
+										user={value}
+										key={index}
+										devURL={devURL}
+									/>
+								)
+							})
+							:''
+						}
+						</>
 					}
 				</div>
 			</div>

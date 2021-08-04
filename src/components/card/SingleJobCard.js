@@ -6,7 +6,7 @@ import * as TiIcons from "react-icons/ti";
 import Moment from 'react-moment';
 import {Link, Redirect} from "react-router-dom";
 
-const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
+const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser, reloadSidebarJob}) => {
 
 	const [job, setJob] = useState(null);
 	const [editJobModal, setEditJobModal] = useState(false);
@@ -103,6 +103,7 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 									job={job}
 									toggleModal={toggleModal}
 									setDeleted={setDeleted}
+									reloadSidebarJob={reloadSidebarJob}
 								/>
 							}
 						</>
@@ -120,7 +121,6 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 	const [applied, setApplied] = useState(null);
 	const [applyError, setApplyError] = useState(false);
 	const [applySuccess, setApplySuccess] = useState(false);
-	const [applicants, setApplicants] = useState([]);
 
 	useEffect(() => {
 		if (job !== null){
@@ -133,12 +133,6 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 			}
 		}
 	}, [current_user, job])
-
-	const showApplicants = (e) => {
-		e.preventDefault();
-		console.log(job.applications);
-		setApplicants(job.applications);
-	}
 
 	const applyForJob = () => {
 		const id = window.location.pathname.split('/')[3];
@@ -218,28 +212,6 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 
 						<i id="description_header">Job Description: </i>
 						<span>{job.description}</span>
-						<Link
-							to="/job/applicants"
-							id="view_application"
-							onClick={showApplicants}
-						>
-							View Applicants
-						</Link>
-						<br />
-						<div>
-							{
-								applicants.length !== 0?
-								applicants.map((value, index) => {
-									return(
-										<ApplicantsCard
-											user={value}
-											key={index}
-											devURL={devURL}
-										/>
-									)
-								}):''
-							}
-						</div>
 						<br />
 
 						{
@@ -268,18 +240,16 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 }
 
 const AdminJobsCard = ({toggleModal, current_user, token, devApi,
-	devURL, reloadUser, job, setDeleted}) => {
+	devURL, reloadUser, job, setDeleted, reloadSidebarJob}) => {
 
 	const [applicants, setApplicants] = useState([]);
 
 	const showApplicants = (e) => {
 		e.preventDefault();
-		console.log(job.applications);
 		setApplicants(job.applications);
 	}
 
 	const deleteJob = () => {
-		console.log(job.job_id)
 		axios({
 			method: "DELETE",
 			headers: {
@@ -287,8 +257,8 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 			},
 			url: `${devApi}jobs/get/single/${job.job_id}/delete/`,
 		}).then((res) => {
-			console.log(res.data);
 			if (res.data.message !== false){
+				reloadSidebarJob();
 				setDeleted(true);
 			}
 		});

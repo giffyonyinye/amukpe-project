@@ -171,3 +171,20 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+#loading__div{
+    border: none;
+}
+#loading__div p{
+    margin: 0px;
+    border: none;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 35px;
+    color: var(--main-color);
+}
+#loading__div p svg{
+    -webkit-animation: spin-animation 0.4s infinite linear;
+    animation: spin-animation 0.4s infinite linear;
+}

@@ -2,9 +2,11 @@ import {useState, useEffect} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Moment from "react-moment";
+import LoadingDiv from "../misc/LoadingDiv";
 
 const DashboardJobCard = ({current_user, token, devApi, devURL, reloadUser}) => {
 
+	const [loading, setLoading] = useState(true);
 	const [jobs, setJobs] = useState([]);
 
 	useEffect(() => {
@@ -12,8 +14,8 @@ const DashboardJobCard = ({current_user, token, devApi, devURL, reloadUser}) => 
 			method: "GET",
 			url: `${devApi}jobs/get/all/`,
 		}).then((res) => {
-			console.log(res.data);
 			setJobs(res.data.jobs);
+			setLoading(false);
 		});
 	}, [token, devApi]);
 
@@ -30,16 +32,23 @@ const DashboardJobCard = ({current_user, token, devApi, devURL, reloadUser}) => 
 				</div>
 				<div className="body">
 					{
-						jobs.length !== 0?
-						jobs.map((value, index) => {
-							return (
-								<JobSingleCard
-									job={value}
-									key={index}
-									devURL={devURL}
-								/>
-							)
-						}):''
+						loading?
+						<LoadingDiv />
+						:
+						<>
+						{
+							jobs.length !== 0?
+							jobs.map((value, index) => {
+								return (
+									<JobSingleCard
+										job={value}
+										key={index}
+										devURL={devURL}
+									/>
+								)
+							}):''
+						}
+						</>
 					}
 				</div>
 			</div>
