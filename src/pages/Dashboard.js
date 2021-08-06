@@ -45,7 +45,7 @@ const Dashboard = ({current_user, logout, token, devApi, devURL,
 
 	return (
 		<div className="container-fluid custom__container pt-5">
-			<div className="row justify-content-center">
+			<div className="row justify-content-center" style={{marginTop:"6rem"}}>
 				<DashboardSidebar
 					logout={logout}
 					current_user={current_user}
