@@ -4,6 +4,7 @@ import * as ImIcons from "react-icons/im";
 import * as AiIcons from "react-icons/ai";
 import {Link, Redirect} from "react-router-dom";
 import job from "../assets/img/job.svg";
+import Footer from "../pages/Footer";
 import "../assets/css/auth.css";
 import axios from "axios";
 
@@ -63,7 +64,7 @@ const Register = ({devApi}) => {
 				<Redirect to="/login" />
 				:
 				<div className="container-fluid custom__container pt-5">
-					<div className="row justify-content-center">
+					<div className="row justify-content-center" style={{paddingTop:"6rem"}}>
 						<div className="col-xl-5 col-lg-6 col-md-6"
 							id="auth__imgcol">
 							<img
@@ -172,6 +173,12 @@ const Register = ({devApi}) => {
 								</div>
 						</div>
 					</div>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+
+					<Footer/>
 				</div>
 			}
 		</>

@@ -12,6 +12,7 @@ const JobOpenings = ({devApi, devURL}) => {
 			method: "GET",
 			url: `${devApi}jobs/get/all/`,
 		}).then((res) => {
+			console.log(res.data.jobs);
 			setJobs(res.data.jobs);
 		});
 	}, [devApi]);
@@ -80,6 +81,8 @@ const JobSingleCard = ({job, devURL}) => {
 					</div>
 				</div>:''
 			}
+
+			
 		</div>
 	)
 }

@@ -57,9 +57,13 @@ const DashboardCard = ({current_user, devApi, token, changedPassword,
 									className="first"
 								/>
 
-								<Link to="/job/applied">
-									See All <HiIcons.HiOutlineArrowNarrowRight />
-								</Link>
+								{
+									appliedJobs.length === 0?
+									'':
+									<Link to="/dashboard/profile">
+										See All <HiIcons.HiOutlineArrowNarrowRight />
+									</Link>
+								}
 							</div>
 						</div>
 						<div className="col-xl-6 progress_cardcol">
@@ -69,9 +73,13 @@ const DashboardCard = ({current_user, devApi, token, changedPassword,
 									className="first"
 								/>
 
-								<Link to="/job/applied">
-									View Resume <BsIcons.BsChevronDoubleRight />
-								</Link>
+								{
+									current_user.cv === undefined?
+									'':
+									<Link to="/job/applied">
+										View Resume <BsIcons.BsChevronDoubleRight />
+									</Link>
+								}
 							</div>
 						</div>
 					</div>

@@ -5,9 +5,11 @@ import * as ImIcons from "react-icons/im";
 import * as TiIcons from "react-icons/ti";
 import Moment from 'react-moment';
 import {Link, Redirect} from "react-router-dom";
+import LoadingDiv from "../misc/LoadingDiv";
 
 const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser, reloadSidebarJob}) => {
 
+	const [loading, setLoading] = useState(true);
 	const [job, setJob] = useState(null);
 	const [editJobModal, setEditJobModal] = useState(false);
 	const [deleted, setDeleted] = useState(false);
@@ -32,6 +34,7 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser, reloadS
 			}else{
 				setNotFound(true);
 			}
+			setLoading(false);
 		});
 	}, [token, devApi]);
 
@@ -81,31 +84,40 @@ const SingleJobCard = ({current_user, token, devApi, devURL, reloadUser, reloadS
 									toggleModal={toggleModal}
 								/>:''
 							}
-							{
-								current_user.password !== "admin_login_id"?
-								<UserJobsCard
-									current_user={current_user}
-									token={token}
-									devApi={devApi}
-									devURL={devURL}
-									reloadUser={reloadUser}
-									job={job}
-									toggleModal={toggleModal}
-									reloadJob={reloadJob}
-								/>
-								:
-								<AdminJobsCard
-									current_user={current_user}
-									token={token}
-									devApi={devApi}
-									devURL={devURL}
-									reloadUser={reloadUser}
-									job={job}
-									toggleModal={toggleModal}
-									setDeleted={setDeleted}
-									reloadSidebarJob={reloadSidebarJob}
-								/>
-							}
+							<div className="col-xl-5 pl-2 pr-1">
+								{
+									loading?
+									<LoadingDiv />
+									:
+									<>
+									{
+										current_user.password !== "admin_login_id"?
+										<UserJobsCard
+											current_user={current_user}
+											token={token}
+											devApi={devApi}
+											devURL={devURL}
+											reloadUser={reloadUser}
+											job={job}
+											toggleModal={toggleModal}
+											reloadJob={reloadJob}
+										/>
+										:
+										<AdminJobsCard
+											current_user={current_user}
+											token={token}
+											devApi={devApi}
+											devURL={devURL}
+											reloadUser={reloadUser}
+											job={job}
+											toggleModal={toggleModal}
+											setDeleted={setDeleted}
+											reloadSidebarJob={reloadSidebarJob}
+										/>
+									}
+									</>
+								}
+							</div>
 						</>
 					}
 				</>
@@ -168,7 +180,7 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 	}
 
 	return (
-		<div className="col-xl-5 pl-2 pr-1">
+		<>
 			{
 				job !== null?
 				<div className="card dashboard_card singlejob__card">
@@ -235,7 +247,7 @@ const UserJobsCard = ({toggleModal, current_user, token, devApi,
 					</div>
 				</div>:''
 			}
-		</div>
+		</>
 	)
 }
 
@@ -265,7 +277,7 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 	}
 
 	return (
-		<div className="col-xl-5 pl-2 pr-1">
+		<>
 			{
 				job !== null?
 				<div className="card dashboard_card singlejob__card">
@@ -330,7 +342,7 @@ const AdminJobsCard = ({toggleModal, current_user, token, devApi,
 				</div>
 				:''
 			}
-		</div>
+		</>
 	)
 }
 

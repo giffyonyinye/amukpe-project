@@ -4,8 +4,9 @@ import * as ImIcons from "react-icons/im";
 import * as AiIcons from "react-icons/ai";
 import {Link} from "react-router-dom";
 import axios from "axios";
-import community from "../assets/img/community.svg";
+import community from "../assets/img/communitySvg.svg";
 import "../assets/css/auth.css";
+import Footer from "../pages/Footer";
 
 const Login = ({devApi, setUser, setToken}) => {
 
@@ -53,8 +54,8 @@ const Login = ({devApi, setUser, setToken}) => {
 
 	return (
 		<>
-				<div className="container-fluid custom__container pt-5">
-					<div className="row justify-content-center">
+				<div className=" pt-5">
+					<div className="row justify-content-center" style={{paddingTop:"6rem"}}>
 						<div className="col-xl-5 col-lg-6 col-md-6"
 							id="auth__imgcol">
 							<img
@@ -150,6 +151,11 @@ const Login = ({devApi, setUser, setToken}) => {
 								</div>
 						</div>
 					</div>
+					<br/>
+					<br/>
+					<br/>
+
+					<Footer/>
 				</div>
 		</>
 	)

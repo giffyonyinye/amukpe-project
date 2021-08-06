@@ -47,7 +47,7 @@ const ForgottenPassword = ({devApi, setUser, setToken, setChangedPassword}) => {
 			setProcessing(false);
 			console.log(res.data);
 			if (res.data.message === "code_error" || res.data.message === false){
-				acctError(true);
+				setAcctError(true);
 			}else{
 				setChangedPassword(true);
 				setUser(res.data.user);
@@ -76,7 +76,7 @@ const ForgottenPassword = ({devApi, setUser, setToken, setChangedPassword}) => {
 										{
 											acctError?
 											<div className="alert danger_alert">
-												Incorrect Verify Code
+												Incorrect Verification Code
 												<i onClick={() => setAcctError(false)}>
 													<TiIcons.TiTimes />
 												</i>

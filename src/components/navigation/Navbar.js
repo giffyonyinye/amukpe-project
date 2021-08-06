@@ -7,6 +7,11 @@ import {useState} from "react";
 const Navbar = ({activeComponent, token}) => {
 
 	const [showNav, setShowNav] = useState(false);
+	const[showMenu, setShowMenu] = useState(false);
+
+	let menuMask;
+	menuMask = <div className="header-menuMask" onClick={() => setShowMenu(false)}></div>
+
 
 	const toggleNavbar = (e) => {
 		e.preventDefault();
@@ -23,6 +28,9 @@ const Navbar = ({activeComponent, token}) => {
 				<ul className="navbar-nav">
 					<li className="nav-item">
 						<Link to="/">Home</Link>
+					</li>
+					<li className="nav-item">
+						<Link to="/about">About</Link>
 					</li>
 					<li className="nav-item">
 						<Link to="/contact">Contact</Link>
@@ -56,13 +64,13 @@ const Navbar = ({activeComponent, token}) => {
 					</li>
 					:
 					<>
-						<li className="nav-item">
+						<li className="nav-item sign">
 							<Link to="/register">
 								<VsIcons.VscSignIn />
 								Sign Up
 							</Link>
 						</li>
-						<li className="nav-item">
+						<li className="nav-item sign">
 							<Link to="/login">
 								<VsIcons.VscSignIn />
 								Sign In
@@ -76,7 +84,7 @@ const Navbar = ({activeComponent, token}) => {
 
 		{
 			showNav?
-			<nav className="fixed-top navbar navbar-expand dropdown_nav">
+			<nav className="fixed-top navbar navbar-expand dropdown_nav" onClick={() => setShowMenu(!showMenu)}>
 				<nav>
 					<ul className="dropdown__ul" id="dropdown__ul">
 						<div>
@@ -89,12 +97,28 @@ const Navbar = ({activeComponent, token}) => {
 							Home</Link>
 						</li>
 						<li className="nav-item">
+							<Link to="/about">
+							About</Link>
+						</li>
+						<li className="nav-item">
 							<Link to="/contact">
 							Contact</Link>
 						</li>
 						<li className="nav-item">
 							<Link to="/jobopenings">
 							Jobs</Link>
+						</li>
+						<li className="nav-item">
+							<Link to="/register">
+								<VsIcons.VscSignIn />
+								Sign Up
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link to="/login">
+								<VsIcons.VscSignIn />
+								Sign In
+							</Link>
 						</li>
 						{
 							token?
@@ -107,15 +131,17 @@ const Navbar = ({activeComponent, token}) => {
 							</>
 						}
 					</ul>
+
+					{menuMask}
 				</nav>
 			</nav>:''
+
 		}
+		
+		
 	</header>
 	)
 }
 
 export default Navbar;
 
-
-// I'LL WRITE A REASON WHY I HATED FEMALES GROWING UP
-// i'LL ALSO SEARCH FOR MAVIS BEACON ALTERNATIVES FOR LINUX

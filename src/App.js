@@ -5,12 +5,15 @@ import { BrowserRouter as Router, Route, Switch, Redirect }
 import AuthToken from './auth/authToken';
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import Contact from "./pages/Contact"
 import ForgottenPassword from "./auth/ForgottenPassword";
 import Navbar from "./components/navigation/Navbar";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import JobOpenings from "./pages/JobOpenings";
 import axios from "axios";
+import Footer from "./pages/Footer";
+import AboutUs from "./pages/About";
 
 // const prodApi = "http://localhost:9500/api/";
 // const prodURL = "http://localhost:9500/";
@@ -75,14 +78,18 @@ export default function App(){
                             devURL={prodURL}
                         />
                     </Route>
-                    <Route exact path="/contact">
-                        <h1>contact us</h1>
+                    <Route exact path="/contact" component={Contact}>
+                        <Contact/>
+                    </Route>
+                    <Route exact path="/about" component={AboutUs}>
+                        <AboutUs/>
                     </Route>
                     <Route exact path="/jobopenings">
                         <JobOpenings
                             devURL={prodURL}
                             devApi={prodApi}
                         />
+                        <Footer/>
                     </Route>
                     <Route path="/dashboard">
                         {
