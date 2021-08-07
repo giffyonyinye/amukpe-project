@@ -97,7 +97,8 @@ const Footer = () => {
                     </div>
                     <div className="contact-info">
                         <p>Call Us on</p>
-                        <p><a style={{color: "grey", fontSize:".8rem"}} href="tel:+2348067263200">08067263200</a></p>
+                        <p><a style={{color: "grey", fontSize:".8rem"}} href="tel:+2348063361340">08063361340</a></p> 
+                        <p><a style={{color: "grey", fontSize:".8rem"}} href="tel:+2348034664025">08034664025</a></p> 
                     </div>
                 </div>
             </div>

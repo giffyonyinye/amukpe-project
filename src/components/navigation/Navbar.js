@@ -80,6 +80,8 @@ const Navbar = ({activeComponent, token}) => {
 				}
 				</ul>
 			</nav>
+
+			{menuMask}
 		</nav>
 
 		{

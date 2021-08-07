@@ -55,8 +55,7 @@ const Home = () => {
 					<br />
 					<p className="subheader_text">
 						Development of youth empowerment schemes, educating youths on self development and learning skills.  
-						We have succeded in creating job opportunities to indigenes and non-indegenes in the 
-						community.
+						We have succeded in creating job opportunities to indigenes and non-indegenes of Okpe community at large.
 										
 					</p>
 
@@ -86,9 +85,9 @@ const Home = () => {
 					<h2 className="header_text">What We Are</h2>
 					<br />
 					<p className="subheader_text">
-						Amukpe Community is a community situated in Sapele Delta State. We established this platform to 
+						Amukpe Community is a community situated in Sapele Local Government of Delta State. We established this platform to 
 						improve the standard of the community and create awareness to our people. One main aim of this platform
-						is to provide job opportunities to indigenes and non-indigenes in the commmunity and beyond. 
+						is to provide job opportunities to indigenes and non-indigenes of Okpe Kingdom at large and in diaspora. 
 						
 					</p>
 

@@ -26,6 +26,8 @@
 	.sign {
 		display: none;
 	}
+
+	.menuMask{display: block;}
 	
 	.menuMask {
 		position: fixed;

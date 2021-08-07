@@ -11,7 +11,8 @@ const Contact = () => {
             <div className="row justify-content-evenly mt-5"style={{background:"whitesmoke"}} >
                 <div className=" p-5">
                     <p><i className="fa fa-phone border p-1" style={{background:"#3a011d", color:"white"}}></i> Call Us:</p>
-                    <p>Contact: <a href="tel:+2348067263200">08067263200</a></p>
+                    <p>Contact: <a href="tel:+2348063361340">08063361340</a></p>
+                    <p>Contact: <a href="tel:+2348034664025">08034664025</a></p>
                     <p>Lines open 8am-7pm GMT Monday-Saturday</p>
                 </div>
 
