@@ -66,7 +66,7 @@ const ForgottenPassword = ({devApi, setUser, setToken, setChangedPassword}) => {
 				:
 				<>
 				<div className="container-fluid custom__container pt-5">
-					<div className="row justify-content-center">
+					<div className="row justify-content-center" style={{marginTop:"5rem"}}>
 						{
 							switchComponent?
 							<>
