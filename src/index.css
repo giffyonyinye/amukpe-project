@@ -206,7 +206,7 @@
 .footer-section {
     background-color: #3a011d;
     display: flex;
-    color: grey;
+    color: whitesmoke;
     padding: 2rem 2rem 2rem 2rem;
     justify-content: space-between;
 }
