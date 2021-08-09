@@ -14,7 +14,7 @@ const AboutUs = () => {
             </div>
 
             <div className="pt-5">
-                <div className="row justify-content-evenly ">
+                <div style={{display:"flex", justify-content:"space-between"}}>
                     <div>
                         <img src={about} alt="aboutUs" className="img-fluid" style={{width:"60%"}} />
                     </div>
