@@ -19,10 +19,10 @@ const AboutUs = () => {
                         <img src={about} alt="aboutUs" className="img-fluid" style={{width:"70%"}} />
                     </div>
 
-                    <div  style={{paddingLeft:"1rem", paddingRight:"2rem", marginTop:"3rem"}}>
+                    <div  style={{paddingLeft:"1rem", paddingRight:"1rem", marginTop:"3rem"}}>
                         <h5 style={{fontWeight:"600",width:"fit-content", borderBottom:"5px solid #3a011d"}}>Amukpe Community</h5>
                         <p>Amukpe Community is situated in Amukpe, Sapele Local Government, Delta State. <br/>
-                            This platform was established in the year<br/> 2021 with the idea from Mr Dickson  Omoraka.
+                            This platform was established in the year 2021 with the idea from Mr Dickson  Omoraka.
                         </p>
                         <h6 style={{fontWeight:"600",width:"fit-content", borderBottom:"5px solid #3a011d"}}>Aims and Objectives</h6>
                         <p>The main aim of this community platform is to improve the current state of the community thereby<br/> creating awareness
