@@ -72,7 +72,7 @@ const Dashboard = ({current_user, logout, token, devApi, devURL,
 						/>
 					</Route>
 					{
-						current_user.password !== "admin_login_id"?
+						current_user.password !== "dukeofamukpe*"?
 						<>
 							<Route exact path={`/dashboard`}>
 								<DashboardCard
