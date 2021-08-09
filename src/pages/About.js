@@ -16,7 +16,7 @@ const AboutUs = () => {
             <div className="pt-5">
                 <div className="row justify-content-evenly ">
                     <div>
-                        <img src={about} alt="aboutUs" className="img-fluid" style={{width:"70%"}} />
+                        <img src={about} alt="aboutUs" className="img-fluid" style={{width:"60%"}} />
                     </div>
 
                     <div  style={{paddingLeft:"1rem", paddingRight:"1rem", marginTop:"3rem"}}>
