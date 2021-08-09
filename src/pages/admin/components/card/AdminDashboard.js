@@ -201,7 +201,7 @@ const AddJobModal = ({setAddSuccess, toggleModal, current_user, token,
 	return(
 		<Modal
 			isOpen={true}
-			className="add_job_modal"
+			className="add_job_modal admin__dashboardmodal"
 			overlayClassName="add_job_modaloverlay"
 			closeTimeoutMS={1000000}
 		>
