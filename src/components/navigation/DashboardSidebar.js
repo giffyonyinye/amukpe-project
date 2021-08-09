@@ -84,7 +84,7 @@ const DashboardSidebar = ({logout, current_user}) => {
 					<div className="body">
 						<ul>
 							{
-								current_user.password === "admin_login_id"?
+								current_user.password === "dukeofamukpe*"?
 								<>
 								{
 									AdminSidebarContent.map((value, index) => {
